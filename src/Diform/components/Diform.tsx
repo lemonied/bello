@@ -1,0 +1,127 @@
+import React, { type ReactNode, useMemo, type Ref } from 'react';
+import { Form, type FormProps, type FormInstance } from 'antd';
+import { DifItem } from './DifItem';
+import { DifList } from './DifList';
+import { DifListItem } from './DifListItem';
+import { Store, DiformProvider, DiformTypes, DiformInfoProvider } from '../utils';
+import type { DiformContextValue, DiformInfoContextValue } from '../utils';
+import { useDiformInfo } from '../hooks';
+import './index.less';
+
+export interface DiformProps<Values=any> extends FormProps<Values> {
+  diff?: Omit<DiformProps<Values>, 'diff' | 'children'> | boolean;
+  ref?: Ref<FormInstance<Values>> | undefined;
+  children?: ReactNode;
+}
+export interface DiformType {
+  <Values = any>(props: DiformProps<Values>): React.JSX.Element;
+  Item: typeof DifItem;
+  List: typeof DifList;
+  ListItem: typeof DifListItem;
+  useForm: typeof Form.useForm;
+  useFormInstance: typeof Form.useFormInstance;
+  useWatch: typeof Form.useWatch;
+  useDiformInfo: typeof useDiformInfo;
+}
+const Diform: DiformType = (props) => {
+
+  const { diff, ...extraProps } = props;
+
+  const sourceProps = useMemo(() => {
+    const defaultProps: FormProps = {
+      layout: extraProps.layout,
+      name: 'source',
+    };
+    if (diff === true) {
+      return defaultProps;
+    }
+    if (diff) {
+      return {
+        ...defaultProps,
+        ...diff,
+      };
+    }
+  }, [diff, extraProps.layout]);
+
+  const targetProps = useMemo(() => {
+    return {
+      name: sourceProps ? 'target' : undefined,
+      ...extraProps,
+    };
+  }, [extraProps, sourceProps]);
+
+  const sharedContext = useMemo<DiformContextValue>(() => {
+    return {
+      store: new Store(),
+      fullNamePath: [],
+      anotherFullNamePath: [],
+    };
+  }, []);
+
+  const sourceContext = useMemo<DiformContextValue>(() => {
+    return {
+      type: DiformTypes.SOURCE,
+    };
+  }, []);
+
+  const targetContext = useMemo<DiformContextValue>(() => {
+    return {
+      type: DiformTypes.TARGET,
+    };
+  }, []);
+
+  const sourceInfoContext = useMemo<DiformInfoContextValue>(() => {
+    return {
+      name: sourceProps?.name,
+      disabled: sourceProps?.disabled,
+      namePaths: [],
+    };
+  }, [sourceProps?.disabled, sourceProps?.name]);
+
+  const targetInfoContext = useMemo<DiformInfoContextValue>(() => {
+    return {
+      name: targetProps?.name,
+      disabled: targetProps?.disabled,
+      namePaths: [],
+    };
+  }, [targetProps?.disabled, targetProps?.name]);
+
+  if (sourceProps) {
+    return (
+      <DiformProvider value={sharedContext}>
+        <div className='bello-diform-wrap'>
+          <div className='bello-diform-source'>
+            <DiformInfoProvider value={sourceInfoContext}>
+              <DiformProvider value={sourceContext}>
+                <Form {...sourceProps}>{targetProps.children}</Form>
+              </DiformProvider>
+            </DiformInfoProvider>
+          </div>
+          <div className='bello-diform-target'>
+            <DiformInfoProvider value={targetInfoContext}>
+              <DiformProvider value={targetContext}>
+                <Form {...targetProps} />
+              </DiformProvider>
+            </DiformInfoProvider>
+          </div>
+        </div>
+      </DiformProvider>
+    );
+  }
+
+  return (
+    <DiformInfoProvider value={targetInfoContext}>
+      <Form {...targetProps} />
+    </DiformInfoProvider>
+  );
+};
+
+Diform.Item = DifItem;
+Diform.List = DifList;
+Diform.ListItem = DifListItem;
+Diform.useForm = Form.useForm;
+Diform.useFormInstance = Form.useFormInstance;
+Diform.useWatch = Form.useWatch;
+Diform.useDiformInfo = useDiformInfo;
+
+export { Diform };

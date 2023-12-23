@@ -1,0 +1,11 @@
+{
+  "*.{css,less}": [
+    "stylelint"
+  ],
+  "*.{js,jsx}": [
+    "eslint --max-warnings 0"
+  ],
+  "*.{ts,tsx}": [
+    "eslint --max-warnings 0"
+  ]
+}
