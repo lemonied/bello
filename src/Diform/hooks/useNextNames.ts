@@ -12,15 +12,14 @@ export const useNextNames = (name?: NamePath) => {
 
 export const useNextAnotherNames = (name?: NamePath) => {
   const names = useNames(name);
-  const { anotherFieldName, uniqueKey, anotherFullNamePath } = useDiformContext();
+  const { anotherFieldName, uniqueKey } = useDiformContext();
   return useMemo(() => {
-    if (uniqueKey && anotherFullNamePath && typeof anotherFieldName === 'number' && typeof names?.[0] === 'number') {
+    if (uniqueKey && typeof anotherFieldName === 'number' && typeof names?.[0] === 'number') {
       return [
-        ...anotherFullNamePath,
         anotherFieldName,
         ...names.slice(1),
       ] as NamePaths;
     }
     return names;
-  }, [anotherFieldName, anotherFullNamePath, names, uniqueKey]);
+  }, [anotherFieldName, names, uniqueKey]);
 };

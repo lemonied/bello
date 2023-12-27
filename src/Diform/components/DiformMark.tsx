@@ -11,24 +11,36 @@ interface DiformMarkProps {
 const DiformMark: FC<DiformMarkProps> = (props) => {
 
   const { className, style, children } = props;
-  const { statusInfo } = useDiformContext();
+  const { statusInfo, firstStatus } = useDiformContext();
+
+  const status = firstStatus ? statusInfo : null;
 
   return (
     <div
-      className={classnames(className, 'bello-diform-mark')}
+      className={classnames(
+        className,
+        {
+          'bello-diform-mark': status,
+        },
+      )}
       style={{
-        borderColor: statusInfo?.color,
+        borderColor: status?.color,
         ...style,
       }}
     >
-      <div className={'bello-diform-mark-divider'}>
-        <span style={{ borderColor: statusInfo?.color }} />
-        <span style={{ color: statusInfo?.color }}>{statusInfo?.text}</span>
-        <span style={{ borderColor: statusInfo?.color }} />
-      </div>
+      {
+        status ?
+          <div className={'bello-diform-mark-divider'}>
+            <span style={{ borderColor: status.color }} />
+            <span style={{ color: status.color }}>{statusInfo?.text}</span>
+            <span style={{ borderColor: status.color }} />
+          </div> :
+          null
+      }
       {children}
     </div>
   );
+  
 };
 
 export { DiformMark };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDiformContext } from './useDiformContext';
 import { useNextAnotherNames, useNextNames } from './useNextNames';
 import { useDebounceFn } from './useDebounceFn';
@@ -6,6 +6,7 @@ import { useAnotherType } from './useAnotherType';
 import { useNonNullConcat } from './useNonNullConcat';
 import { Store } from '../utils';
 import type { DiformTypes, NamePath, NamePaths, StoreValue } from '../utils';
+import { isEmpty } from 'lodash';
 
 export const useStoreValue = (type?: DiformTypes, names?: NamePaths) => {
   const { store } = useDiformContext();
@@ -38,12 +39,14 @@ export const useCurrentStoreValue = (name?: NamePath) => {
 };
 
 export const useAnotherStoreValue = (name?: NamePath) => {
+  const { anotherFullNamePath } = useDiformContext();
   const type = useAnotherType();
-  const fullNames = useNextAnotherNames(name);
+  const nextNames = useNextAnotherNames(name);
+  const fullNames = useNonNullConcat(anotherFullNamePath, nextNames);
   return useStoreValue(type, fullNames);
 };
 
-export const useCurrentUniqueField = (fieldName: number) => {
+export const useCurrentUniqueField = (fieldName?: number) => {
   const { type, fullNamePath, uniqueKey } = useDiformContext();
   const names = useNonNullConcat(fullNamePath, fieldName, uniqueKey);
   return useStoreValue(type, names);
@@ -77,4 +80,37 @@ export const useAnotherUniqueFields = () => {
   }, [anotherFullNamePath, debounced, store, type, uniqueKey]);
 
   return state;
+};
+
+export const useAnotherExistenceValue = (fieldName?: number) => {
+  const { store, anotherFullNamePath } = useDiformContext();
+  const names = useNonNullConcat(anotherFullNamePath, fieldName);
+  const type = useAnotherType();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stateRef = useRef(useMemo(() => store?.getChildSnapshots({ names: names, type }), []));
+  const [state, setState] = useState(!isEmpty(stateRef.current));
+
+  const debounced = useDebounceFn(() => {
+    setState(!isEmpty(stateRef.current));
+  }, 300);
+
+  useEffect(() => {
+    if (names && type && store) {
+      stateRef.current = store.getChildSnapshots({ type, names });
+      debounced();
+      const cancel = store.on((storeValue) => {
+        stateRef.current = stateRef.current ?
+          Store.updateState({ ...stateRef.current }, storeValue) :
+          store?.getChildSnapshots({ names, type });
+        debounced();
+      }, { names, type, onlyValue: true, fuzzy: true });
+      return () => {
+        cancel();
+        debounced.cancel();
+      };
+    }
+  }, [type, names, store, debounced]);
+
+  return state;
+
 };

@@ -1,5 +1,5 @@
 import React, { type ReactNode, useMemo, type Ref } from 'react';
-import { Form, type FormProps, type FormInstance } from 'antd';
+import { Form, type FormProps, type FormInstance, Row, Col } from 'antd';
 import { DifItem } from './DifItem';
 import { DifList } from './DifList';
 import { DifListItem } from './DifListItem';
@@ -89,22 +89,22 @@ const Diform: DiformType = (props) => {
   if (sourceProps) {
     return (
       <DiformProvider value={sharedContext}>
-        <div className='bello-diform-wrap'>
-          <div className='bello-diform-source'>
+        <Row gutter={8}>
+          <Col span={12}>
             <DiformInfoProvider value={sourceInfoContext}>
               <DiformProvider value={sourceContext}>
                 <Form {...sourceProps}>{targetProps.children}</Form>
               </DiformProvider>
             </DiformInfoProvider>
-          </div>
-          <div className='bello-diform-target'>
+          </Col>
+          <Col span={12}>
             <DiformInfoProvider value={targetInfoContext}>
               <DiformProvider value={targetContext}>
                 <Form {...targetProps} />
               </DiformProvider>
             </DiformInfoProvider>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </DiformProvider>
     );
   }

@@ -13,6 +13,7 @@ export interface DiformContextValue {
   uniqueKey?: NamePaths;
   store?: Store;
   statusInfo?: StatusInfo;
+  firstStatus?: boolean;
 }
 
 export const DiformContext = createContext<DiformContextValue>({});
@@ -51,6 +52,10 @@ export interface DiformInfoContextValue {
    * @description 所有父级name的联合
    */
   namePaths?: NamePaths;
+  /**
+   * @description 当前FormListItem的field.name
+   */
+  fieldName?: number;
 }
 export const DiformInfoContext = createContext<DiformInfoContextValue>({});
 export interface DiformInfoProviderProps {

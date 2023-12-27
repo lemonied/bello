@@ -14,7 +14,7 @@ interface DifItemContentProps {
 }
 const DifItemContent: FC<DifItemContentProps> = (props) => {
   const { children, name, ...extra } = props;
-  const { type, store, statusInfo: currentStatusInfo } = useDiformContext();
+  const { type, store, statusInfo, firstStatus } = useDiformContext();
   
   const anotherValue = useAnotherStoreValue(name);
 
@@ -23,7 +23,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
   const storeRef = useRef(store);
   storeRef.current = store;
 
-  const statusInfo = useMemo(() => {
+  const nextStatusInfo = useMemo(() => {
     if (type) {
       const currentVal = extra.value;
       const anotherVal = anotherValue?.value;
@@ -33,16 +33,17 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
 
   const nextContext = useMemo<DiformContextValue>(() => {
     return {
-      statusInfo: statusInfo ?? currentStatusInfo,
+      statusInfo: nextStatusInfo ?? statusInfo,
+      firstStatus: !firstStatus && !statusInfo && !!nextStatusInfo,
     };
-  }, [statusInfo, currentStatusInfo]);
+  }, [firstStatus, nextStatusInfo, statusInfo]);
 
   useEffect(() => {
     if (names && type) {
       const currentVal = extra.value;
-      storeRef.current?.emit({ type, names, value: currentVal, statusInfo });
+      storeRef.current?.emit({ type, names, value: currentVal, statusInfo: nextStatusInfo });
     }
-  }, [extra.value, names, statusInfo, type]);
+  }, [extra.value, names, nextStatusInfo, type]);
 
   useEffect(() => {
     if (type && names) {
@@ -50,17 +51,12 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     }
   }, [names, type]);
 
-  if (!currentStatusInfo && statusInfo) {
-    return (
-      <DiformProvider value={nextContext}>
-        <DiformMark>{cloneElement(children, extra)}</DiformMark>
-      </DiformProvider>
-    );
-  }
-
   return (
-    <>{cloneElement(children, extra)}</>
+    <DiformProvider value={nextContext}>
+      <DiformMark>{cloneElement(children, extra)}</DiformMark>
+    </DiformProvider>
   );
+
 };
 
 export const DifItem: FC<FormItemProps> = (props) => {

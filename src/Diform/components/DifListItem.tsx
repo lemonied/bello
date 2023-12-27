@@ -1,19 +1,19 @@
 import React, { useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
-import type { FormListFieldData } from 'antd/es/form/FormList';
-import { DIFF_STATUS, DiformProvider, DiformTypes } from '../utils';
-import type { DiformContextValue } from '../utils';
-import { useDiformContext, useNextAnotherFieldName } from '../hooks';
+import { DIFF_STATUS, DiformInfoProvider, DiformProvider, DiformTypes } from '../utils';
+import type { DiformContextValue, DiformInfoContextValue } from '../utils';
+import { useDiformContext, useDiformInfo, useNextAnotherFieldName } from '../hooks';
 import { DiformMark } from './DiformMark';
 
 export interface DifListItemProps {
-  field: FormListFieldData;
+  fieldName: number;
   children?: ReactNode;
 }
-const DifListItemContent: FC<DifListItemProps> = (props) => {
-  const { field, children } = props;
-  const nextAnotherFieldName = useNextAnotherFieldName(field.name);
-  const { statusInfo, type } = useDiformContext();
+const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
+  const { children } = props;
+  const { fieldName } = useDiformInfo();
+  const nextAnotherFieldName = useNextAnotherFieldName(fieldName);
+  const { statusInfo, type, firstStatus } = useDiformContext();
   const nextStatusInfo = useMemo(() => {
     if (statusInfo) {
       return statusInfo;
@@ -28,32 +28,36 @@ const DifListItemContent: FC<DifListItemProps> = (props) => {
 
   const nextContext = useMemo<DiformContextValue>(() => {
     return {
-      fieldName: field.name,
+      fieldName,
       anotherFieldName: nextAnotherFieldName,
       statusInfo: nextStatusInfo,
+      firstStatus: !firstStatus && !statusInfo && !!nextStatusInfo,
     };
-  }, [field.name, nextAnotherFieldName, nextStatusInfo]);
-
-  if (!statusInfo && nextStatusInfo) {
-    return (
-      <DiformProvider value={nextContext}>
-        <DiformMark>{children}</DiformMark>
-      </DiformProvider>
-    );
-  }
+  }, [fieldName, firstStatus, nextAnotherFieldName, nextStatusInfo, statusInfo]);
 
   return (
-    <DiformProvider value={nextContext}>{children}</DiformProvider>
+    <DiformProvider value={nextContext}>
+      <DiformMark>{children}</DiformMark>
+    </DiformProvider>
   );
 };
 export const DifListItem: FC<DifListItemProps> = (props) => {
   const context = useDiformContext();
+
+  const nextDiformInfoContext = useMemo<DiformInfoContextValue>(() => {
+    return {
+      fieldName: props.fieldName,
+    };
+  }, [props.fieldName]);
+
   if (typeof context.type !== 'undefined') {
     return (
-      <DifListItemContent {...props} />
+      <DiformInfoProvider value={nextDiformInfoContext}>
+        <DifListItemContent {...props} />
+      </DiformInfoProvider>
     );
   }
   return (
-    <>{props.children}</>
+    <DiformInfoProvider value={nextDiformInfoContext}>{props.children}</DiformInfoProvider>
   );
 };

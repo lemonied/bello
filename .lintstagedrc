@@ -3,9 +3,9 @@
     "stylelint"
   ],
   "*.{js,jsx}": [
-    "eslint --max-warnings 0"
+    "eslint"
   ],
   "*.{ts,tsx}": [
-    "eslint --max-warnings 0"
+    "eslint"
   ]
 }

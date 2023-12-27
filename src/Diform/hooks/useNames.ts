@@ -7,7 +7,7 @@ export const useNames = (name?: NamePath) => {
       return undefined;
     }
     if (Array.isArray(name)) {
-      return name;
+      return name.length ? name : undefined;
     }
     return [name];
   }, [name]);
