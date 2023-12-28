@@ -17,6 +17,7 @@
     "form",
     "diff"
   ],
+  "homepage": "https://lemonied.github.io/bello",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
