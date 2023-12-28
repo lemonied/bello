@@ -11,6 +11,9 @@ const Parents = () => {
     <Card
       title={'家长'}
       size={'small'}
+      bordered={false}
+      bodyStyle={{ background: '#f3f3f3' }}
+      headStyle={{ background: '#f3f3f3' }}
     >
       <Diform.List
         name={[fieldName!, 'parents']}
@@ -33,6 +36,7 @@ const Parents = () => {
                                   rules={[
                                     { required: true, message: '必填项' },
                                   ]}
+                                  style={{ marginBottom: 0 }}
                                 >
                                   <Input />
                                 </Diform.Item>
@@ -41,6 +45,7 @@ const Parents = () => {
                                 <Diform.Item
                                   name={[field.name, 'relation']}
                                   label={'关系'}
+                                  style={{ marginBottom: 0 }}
                                 >
                                   <Input />
                                 </Diform.Item>
@@ -49,11 +54,12 @@ const Parents = () => {
                                 <Diform.Item
                                   name={[field.name, 'height']}
                                   label={'手机号'}
+                                  style={{ marginBottom: 0 }}
                                 >
                                   <Input />
                                 </Diform.Item>
                               </Col>
-                              <Col>
+                              <Col style={{ paddingTop: 26 }}>
                                 <Typography.Link
                                   type={'danger'}
                                   onClick={() => remove(field.name)}
@@ -74,6 +80,7 @@ const Parents = () => {
                         <PlusOutlined />
                       }
                       onClick={() => add()}
+                      size={'small'}
                     >添加家长</Button>
                   </Col>
                 </Row>
@@ -109,11 +116,12 @@ const Students = () => {
                       return (
                         <Col key={field.key} span={24}>
                           <Diform.ListItem fieldName={field.name}>
-                            <Row gutter={8} align={'middle'}>
+                            <Row gutter={[8, 8]} align={'middle'}>
                               <Col span={7}>
                                 <Diform.Item
                                   name={[field.name, 'name']}
                                   label={'姓名'}
+                                  style={{ marginBottom: 0 }}
                                   rules={[
                                     { required: true, message: '必填项' },
                                     {
@@ -134,6 +142,7 @@ const Students = () => {
                                 <Diform.Item
                                   name={[field.name, 'age']}
                                   label={'年龄'}
+                                  style={{ marginBottom: 0 }}
                                 >
                                   <InputNumber style={{ width: '100%' }} />
                                 </Diform.Item>
@@ -142,11 +151,12 @@ const Students = () => {
                                 <Diform.Item
                                   name={[field.name, 'height']}
                                   label={'身高'}
+                                  style={{ marginBottom: 0 }}
                                 >
                                   <InputNumber style={{ width: '100%' }} addonAfter='cm' />
                                 </Diform.Item>
                               </Col>
-                              <Col>
+                              <Col style={{ paddingTop: 26 }}>
                                 <Typography.Link
                                   type={'danger'}
                                   onClick={() => remove(field.name)}
@@ -154,8 +164,10 @@ const Students = () => {
                                   <DeleteOutlined />
                                 </Typography.Link>
                               </Col>
+                              <Col span={24}>
+                                <Parents />
+                              </Col>
                             </Row>
-                            <Parents />
                           </Diform.ListItem>
                         </Col>
                       );
@@ -184,8 +196,15 @@ export default () => {
 
   return (
     <Diform
-      diff
+      diff={{
+        initialValues: {
+          clazz: '三年二班',
+        },
+      }}
       layout='vertical'
+      initialValues={{
+        clazz: '三年2班',
+      }}
     >
       <Diform.Item
         name={'clazz'}

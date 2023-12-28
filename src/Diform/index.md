@@ -1,10 +1,14 @@
-# Diform
+---
+title: Diform
+---
+
+# 表单差异对比组件
 
 ## 示例
 
-### 一般表单
+### 动态表单对比
 
-<code src="./examples/common.tsx"></code>
+<code src="./examples/DynamicDiff.tsx"></code>
 
 ## API
 
@@ -14,7 +18,7 @@
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-|diff|是否开启diff对比|[FormInstance](#FormInstance) \| true|`void`|
+|diff|是否开启diff对比|[FormInstance](#forminstance) \| `true`|`void`|
 
 ### Diform.Item
 
@@ -26,7 +30,7 @@
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-|uniqueKey|列表项的唯一key|[NamePath](#NamePath)|`void`|
+|uniqueKey|列表项的唯一key|[NamePath](#namepath)|`void`|
 
 ### Diform.ListItem
 
@@ -40,7 +44,7 @@
 
 |hook|描述|返回值|
 |---|---|---|
-|Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#DiformInfo)|
+|Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#diforminfo)|
 |Diform.useForm|继承 `Form.useForm`|[Form.useForm](https://ant-design.antgroup.com/components/form-cn#formuseform)|
 |Diform.useFormInstance|继承 `Form.useFormInstance`|[Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance)|
 |Diform.useWatch|继承 `Form.useWatch`|[Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)|
@@ -53,10 +57,16 @@
 
 继承自 antd [FormInstance](https://ant-design.antgroup.com/components/form-cn#forminstance)
 
+### NamePaths
+
+```ts
+type NamePaths = (string | number)[];
+```
+
 ### NamePath
 
 ```ts
-type NamePath = string | number | (string | number)[]
+type NamePath = string | number | (string | number)[];
 ```
 
 ### DiformInfo

@@ -15,7 +15,7 @@ export interface Subscriber extends Pick<StoreValue, 'type' | 'names'> {
   callback: (storeValue: StoreValue) => void;
   key: string;
   /**
-   * 是否为模糊匹配
+   * @description 是否为模糊匹配
    */
   fuzzy?: boolean;
   /**

@@ -7,5 +7,6 @@ export default defineConfig({
   themeConfig: {
     name: 'bello',
     editLink: false,
+    footer: false,
   },
 });
