@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { DIFF_STATUS, DiformInfoProvider, DiformProvider, DiformTypes } from '../utils';
-import type { DiformContextValue, DiformInfoContextValue } from '../utils';
+import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiformContext, useDiformInfo, useNextAnotherFieldName } from '../hooks';
 import { DiformMark } from './DiformMark';
 
@@ -44,7 +44,7 @@ const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
 export const DifListItem: FC<DifListItemProps> = (props) => {
   const context = useDiformContext();
 
-  const nextDiformInfoContext = useMemo<DiformInfoContextValue>(() => {
+  const nextDiformInfoContext = useMemo<DiformInfo>(() => {
     return {
       fieldName: props.fieldName,
     };

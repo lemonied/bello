@@ -39,7 +39,7 @@ export const DiformProvider: FC<DiformProviderProps> = (props) => {
   );
 };
 
-export interface DiformInfoContextValue {
+export interface DiformInfo {
   /**
    * @description Form的disabled属性
    */
@@ -57,10 +57,10 @@ export interface DiformInfoContextValue {
    */
   fieldName?: number;
 }
-export const DiformInfoContext = createContext<DiformInfoContextValue>({});
+export const DiformInfoContext = createContext<DiformInfo>({});
 export interface DiformInfoProviderProps {
   children?: ReactNode;
-  value?: DiformInfoContextValue;
+  value?: DiformInfo;
 }
 export const DiformInfoProvider: FC<DiformInfoProviderProps> = (props) => {
 

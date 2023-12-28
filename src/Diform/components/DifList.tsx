@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Form } from 'antd';
 import type { FormListProps } from 'antd/es/form/FormList';
 import { DiformInfoProvider, DiformProvider, type NamePath } from '../utils';
-import type { DiformContextValue, DiformInfoContextValue } from '../utils';
+import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiformContext, useDiformInfo, useNames, useNextAnotherNames, useNonNullConcat } from '../hooks';
 
 export interface DifListProps extends FormListProps {
@@ -39,7 +39,7 @@ const DifList: FC<DifListProps> = (props) => {
   const context = useDiformContext();
   const { namePaths } = useDiformInfo();
   const nextNamePaths = useNonNullConcat(namePaths, props.name);
-  const nextDiformInfoContext = useMemo<DiformInfoContextValue>(() => {
+  const nextDiformInfoContext = useMemo<DiformInfo>(() => {
     return {
       namePaths: nextNamePaths,
     };

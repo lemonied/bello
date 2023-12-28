@@ -59,7 +59,11 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
 
 };
 
-export const DifItem: FC<FormItemProps> = (props) => {
+export interface DifItemType {
+  (props: FormItemProps): React.JSX.Element;
+  useStatus: typeof Form.Item.useStatus;
+}
+const DifItem: DifItemType = (props) => {
 
   const { children, ...extra } = props;
   const context = useDiformContext();
@@ -78,3 +82,7 @@ export const DifItem: FC<FormItemProps> = (props) => {
   );
   
 };
+
+DifItem.useStatus = Form.Item.useStatus;
+
+export { DifItem };
