@@ -11,3 +11,9 @@
 npm install bello
 ```
 
+## Components
+
+[文档](https://lemonied.github.io/bello)
+
+### Diform
+表单对比组件 - [文档](https://lemonied.github.io/bello/components/diform)
