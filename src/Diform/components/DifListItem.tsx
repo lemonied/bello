@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { cloneElement, isValidElement, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { DIFF_STATUS, DiformInfoProvider, DiformProvider, DiformTypes } from '../utils';
 import type { DiformContextValue, DiformInfo } from '../utils';
@@ -8,9 +8,10 @@ import { DiformMark } from './DiformMark';
 export interface DifListItemProps {
   fieldName: number;
   children?: ReactNode;
+  noStatus?: boolean;
 }
 const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
-  const { children } = props;
+  const { children, noStatus } = props;
   const { fieldName } = useDiformInfo();
   const nextAnotherFieldName = useNextAnotherFieldName(fieldName);
   const { statusInfo, type, firstStatus } = useDiformContext();
@@ -35,9 +36,19 @@ const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
     };
   }, [fieldName, firstStatus, nextAnotherFieldName, nextStatusInfo, statusInfo]);
 
+  const nextChildren = useMemo(() => {
+    return isValidElement<any>(children) ? cloneElement(children, {
+      statusInfo: nextContext.statusInfo,
+    }) : children;
+  }, [children, nextContext.statusInfo]);
+
   return (
     <DiformProvider value={nextContext}>
-      <DiformMark>{children}</DiformMark>
+      {
+        noStatus ?
+          nextChildren :
+          <DiformMark>{nextChildren}</DiformMark>
+      }
     </DiformProvider>
   );
 };

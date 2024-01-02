@@ -10,6 +10,10 @@ title: Diform
 
 <code src="./examples/DynamicDiff.tsx"></code>
 
+### Tabs类型的Form List
+
+<code src="./examples/TabList.tsx"></code>
+
 ## API
 
 ### Diform

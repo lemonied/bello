@@ -10,6 +10,7 @@ interface DifItemContentProps {
   children: ReactElement;
   value?: any;
   name?: NamePath;
+  noStatus?: boolean;
   [prop: string]: any;
 }
 const DifItemContent: FC<DifItemContentProps> = (props) => {
@@ -38,6 +39,13 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     };
   }, [firstStatus, nextStatusInfo, statusInfo]);
 
+  const nextProps = useMemo(() => {
+    return {
+      ...extra,
+      statusInfo: nextContext.firstStatus ? nextContext.statusInfo : undefined,
+    };
+  }, [extra, nextContext.statusInfo, nextContext.firstStatus]);
+
   useEffect(() => {
     if (names && type) {
       const currentVal = extra.value;
@@ -53,26 +61,33 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
 
   return (
     <DiformProvider value={nextContext}>
-      <DiformMark>{cloneElement(children, extra)}</DiformMark>
+      {
+        nextProps.noStatus ?
+          cloneElement(children, nextProps) :
+          <DiformMark>{cloneElement(children, nextProps)}</DiformMark>
+      }
     </DiformProvider>
   );
 
 };
 
+export interface DifItemProps extends FormItemProps {
+  noStatus?: boolean;
+}
 export interface DifItemType {
-  (props: FormItemProps): React.JSX.Element;
+  (props: DifItemProps): React.JSX.Element;
   useStatus: typeof Form.Item.useStatus;
 }
 const DifItem: DifItemType = (props) => {
 
-  const { children, ...extra } = props;
+  const { children, noStatus, ...extra } = props;
   const context = useDiformContext();
   const names = useNames(props.name);
 
   if (typeof context.type !== 'undefined' && names && isValidElement(children)) {
     return (
       <Form.Item {...extra}>
-        <DifItemContent name={extra.name}>{children}</DifItemContent>
+        <DifItemContent name={extra.name} noStatus={noStatus}>{children}</DifItemContent>
       </Form.Item>
     );
   }
