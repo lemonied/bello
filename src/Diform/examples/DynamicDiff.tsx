@@ -52,7 +52,7 @@ const Parents = () => {
                               </Col>
                               <Col span={7}>
                                 <Diform.Item
-                                  name={[field.name, 'height']}
+                                  name={[field.name, 'phone']}
                                   label={'手机号'}
                                   style={{ marginBottom: 0 }}
                                 >
@@ -199,11 +199,43 @@ export default () => {
       diff={{
         initialValues: {
           clazz: '三年二班',
+          students: [
+            {
+              name: '江小明',
+              age: '13',
+              height: '160',
+              parents: [
+                {
+                  name: '江大白',
+                  relation: '父亲',
+                },
+              ],
+            },
+          ],
         },
       }}
       layout='vertical'
       initialValues={{
         clazz: '三年2班',
+        students: [
+          {
+            name: '江小明',
+            age: '12',
+            height: '155',
+            parents: [
+              {
+                name: '江大白',
+                relation: '父子',
+                phone: '13999999999',
+              },
+              {
+                name: '佟丽娅',
+                relation: '母子',
+                phone: '13888888888',
+              },
+            ],
+          },
+        ],
       }}
     >
       <Diform.Item

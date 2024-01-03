@@ -15,7 +15,9 @@
     "react",
     "react-component",
     "form",
-    "diff"
+    "diff",
+    "表单diff",
+    "表单差异"
   ],
   "homepage": "https://lemonied.github.io/bello",
   "module": "dist/index.js",
