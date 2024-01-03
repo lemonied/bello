@@ -3,11 +3,11 @@ import { Form, type FormProps, type FormInstance, Row, Col } from 'antd';
 import { DifItem } from './DifItem';
 import { DifList } from './DifList';
 import { DifListItem } from './DifListItem';
+import { DifInfo } from './DifInfo';
 import { Store, DiformProvider, DiformTypes, DiformInfoProvider } from '../utils';
 import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiformInfo } from '../hooks';
 import './index.less';
-import { DifInfo } from './DifInfo';
 
 export interface DiformProps<Values=any> extends FormProps<Values> {
   diff?: Omit<DiformProps<Values>, 'diff' | 'children'> | boolean;
@@ -33,6 +33,7 @@ const Diform: DiformType = (props) => {
   const sourceProps = useMemo(() => {
     const defaultProps: FormProps = {
       layout: extraProps.layout,
+      component: extraProps.component,
       name: 'source',
     };
     if (diff === true) {
@@ -44,7 +45,7 @@ const Diform: DiformType = (props) => {
         ...diff,
       };
     }
-  }, [diff, extraProps.layout]);
+  }, [diff, extraProps.layout, extraProps.component]);
 
   const targetProps = useMemo(() => {
     return {

@@ -1,22 +1,27 @@
 ---
 hero:
-  title: library
-  description: A react library developed with dumi
+  title: Bello
+  description: |
+    <code style="padding: 2px 5px;color: #d56161;background: #f0f4f8;border-radius: 2px;">npm install bello --save</code>
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
+    - text: API 文档
+      link: /components/diform
 features:
-  - title: Hello
-    emoji: 💎
-    description: Put hello description here
-  - title: World
-    emoji: 🌈
-    description: Put world description here
-  - title: '!'
+  - title: Diform
     emoji: 🚀
-    description: Put ! description here
+    link: '/components/diform'
+    description: 表单差异对比/diff对比
+  - title: PassProps
+    emoji: ✨
+    link: '/components/passprops'
+    description: 快速自定义表单项
+  - title: github
+    emoji: ⭐
+    link: 'https://github.com/lemonied/bello'
+    description: 求个Star
 ---
 
-bello
+# Bello
+<div style="text-align: center;">
+  <img src="./bello.jpeg" alt="Bello" />
+</div>

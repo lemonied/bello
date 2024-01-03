@@ -1,6 +1,6 @@
-import React from 'react';
-import { Diform, DiformTypes } from 'bello';
-import { Button, Card, Col, Input, InputNumber, Row, Typography } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { Diform, DiformProps, DiformTypes } from 'bello';
+import { Button, Card, Col, Input, InputNumber, Row, Space, Switch, Typography } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
 const Parents = () => {
@@ -194,9 +194,10 @@ const Students = () => {
 
 export default () => {
 
-  return (
-    <Diform
-      diff={{
+  const [enable, setEnable] = useState(true);
+  const diff = useMemo<DiformProps['diff']>(() => {
+    if (enable) {
+      return {
         initialValues: {
           clazz: '三年二班',
           students: [
@@ -213,53 +214,65 @@ export default () => {
             },
           ],
         },
-      }}
-      layout='vertical'
-      initialValues={{
-        clazz: '三年2班',
-        students: [
+      };
+    }
+  }, [enable]);
+
+  return (
+    <Row gutter={[0, 16]}>
+      <Space>
+        <span>是否开启diff对比功能</span>
+        <Switch defaultChecked checkedChildren={'开启'} unCheckedChildren={'关闭'} onChange={e => setEnable(e)} />
+      </Space>
+      <Diform
+        diff={diff}
+        layout='vertical'
+        initialValues={{
+          clazz: '三年2班',
+          students: [
+            {
+              name: '江小明',
+              age: '12',
+              height: '155',
+              parents: [
+                {
+                  name: '江大白',
+                  relation: '父子',
+                  phone: '13999999999',
+                },
+                {
+                  name: '佟丽娅',
+                  relation: '母子',
+                  phone: '13888888888',
+                },
+              ],
+            },
+          ],
+        }}
+      >
+        <Diform.Info>
           {
-            name: '江小明',
-            age: '12',
-            height: '155',
-            parents: [
-              {
-                name: '江大白',
-                relation: '父子',
-                phone: '13999999999',
-              },
-              {
-                name: '佟丽娅',
-                relation: '母子',
-                phone: '13888888888',
-              },
-            ],
-          },
-        ],
-      }}
-    >
-      <Diform.Info>
-        {
-          (diformInfo) => {
-            return (
-              <Card
-                title={diformInfo.type === DiformTypes.SOURCE ? '变更前' : '变更后'}
-              >
-                <Diform.Item
-                  name={'clazz'}
-                  label={'班级'}
-                  rules={[
-                    { required: true },
-                  ]}
+            (diformInfo) => {
+              return (
+                <Card
+                  title={diformInfo.type === DiformTypes.SOURCE ? '变更前' : '变更后'}
                 >
-                  <Input />
-                </Diform.Item>
-                <Students />
-              </Card>
-            );
+                  <Diform.Item
+                    name={'clazz'}
+                    label={'班级'}
+                    rules={[
+                      { required: true },
+                    ]}
+                  >
+                    <Input />
+                  </Diform.Item>
+                  <Students />
+                </Card>
+              );
+            }
           }
-        }
-      </Diform.Info>
-    </Diform>
+        </Diform.Info>
+      </Diform>
+    </Row>
   );
 };

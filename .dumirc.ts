@@ -8,11 +8,15 @@ export default defineConfig({
     name: 'bello',
     editLink: false,
     footer: false,
+    logo: '/bello/logo.png',
     nav: [
       {
         title: 'API',
         link: '/components/diform',
       },
     ],
+    socialLinks: {
+      github: 'https://github.com/lemonied/bello',
+    },
   },
 });

@@ -24,7 +24,7 @@ const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
       if (type === DiformTypes.SOURCE) {
         return combineConfig(DIFF_STATUS.REMOVE);
       }
-      return combineConfig(DIFF_STATUS.ADD);;
+      return combineConfig(DIFF_STATUS.ADD);
     }
   }, [nextAnotherFieldName, statusInfo, type, combineConfig]);
 
