@@ -14,6 +14,20 @@ title: Diform
 
 <code src="./examples/TabList.tsx"></code>
 
+### 自定义配置
+
+#### 使用默认文案
+<code src="./examples/DefaultI18n.tsx"></code>
+
+#### 自定义文案
+<code src="./examples/CustomI18n.tsx"></code>
+
+#### 自定义颜色
+<code src="./examples/CustomColor.tsx"></code>
+
+#### 自定义diff样式
+<code src="./examples/CustomDiff.tsx"></code>
+
 ## API
 
 ### Diform
@@ -22,11 +36,15 @@ title: Diform
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-|diff|是否开启diff对比|[FormInstance](#forminstance) \| `true`|`void`|
+|diff|是否开启diff对比|[FormProps](https://ant-design.antgroup.com/components/form-cn#form) \| `true`|`void`|
 
 ### Diform.Item
 
 > 继承 antd - [Form.Item](https://ant-design.antgroup.com/components/form-cn#formitem)
+
+|属性|说明|类型|默认值|
+|---|---|---|---|
+|noStatus|不显示默认的diff样式 - 优先级低于`noStyle`|`boolean`|`false`|
 
 ### Diform.List
 
@@ -42,7 +60,8 @@ title: Diform
 
 |属性|说明|类型|默认值|
 |---|---|---|---|
-|fieldName|当前项的`field.name`|number|`void`|
+|fieldName|当前项的`field.name`|`number`|`void`|
+|noStatus|不显示默认的diff样式|`boolean`|`false`|
 
 ## hooks
 

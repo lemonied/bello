@@ -15,7 +15,7 @@ export default () => {
           initialValues: {
             products: [
               {
-                name: 'iphone 15 pro',
+                type: 'iphone 15 pro',
               },
             ],
           },
@@ -23,14 +23,14 @@ export default () => {
         initialValues={{
           products: [
             {
-              name: 'iphone 15 pro max',
+              type: 'iphone 15 pro max',
             },
           ],
         }}
       >
         <Diform.List
           name={['products']}
-          uniqueKey={['name']}
+          uniqueKey={['type']}
         >
           {
             (fields, { add, remove }) => {
@@ -54,18 +54,17 @@ export default () => {
                           <PassProps>
                             {
                               (itemProps) => {
-                                const statusInfo = itemProps.statusInfo as StatusInfo;
+                                const diffstatus = itemProps.diffstatus as StatusInfo;
                                 return (
                                   <Diform.Item
-                                    noStatus
                                     noStyle
-                                    name={[field.name, 'name']}
+                                    name={[field.name, 'type']}
                                   >
                                     <PassProps>
                                       {
                                         p => {
                                           return (
-                                            <span style={{ color: statusInfo?.color }}>{p.value}</span>
+                                            <span style={{ color: diffstatus?.color }}>{p.value}</span>
                                           );
                                         }
                                       }
@@ -86,7 +85,8 @@ export default () => {
                           <Row gutter={8}>
                             <Col span={8}>
                               <Diform.Item
-                                name={[field.name, 'name']}
+                                name={[field.name, 'type']}
+                                style={{ marginBottom: 0 }}
                               >
                                 <Input />
                               </Diform.Item>

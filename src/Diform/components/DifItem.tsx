@@ -1,7 +1,7 @@
 import React, { isValidElement, cloneElement, useEffect, useRef, useMemo } from 'react';
 import type { FC, ReactElement } from 'react';
 import { Form, type FormItemProps } from 'antd';
-import { useAnotherStoreValue, useDiformContext, useNames, useNextNames } from '../hooks';
+import { useAnotherStoreValue, useDiformCombineConfig, useDiformContext, useNames, useNextNames } from '../hooks';
 import { DiformProvider, getStatusInfo } from '../utils';
 import type  { DiformContextValue, NamePath } from '../utils';
 import { DiformMark } from './DiformMark';
@@ -14,10 +14,11 @@ interface DifItemContentProps {
   [prop: string]: any;
 }
 const DifItemContent: FC<DifItemContentProps> = (props) => {
-  const { children, name, ...extra } = props;
+  const { children, name, noStatus, ...extra } = props;
   const { type, store, statusInfo, firstStatus } = useDiformContext();
   
   const anotherValue = useAnotherStoreValue(name);
+  const combineConfig = useDiformCombineConfig();
 
   const names = useNextNames(name);
 
@@ -28,9 +29,11 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     if (type) {
       const currentVal = extra.value;
       const anotherVal = anotherValue?.value;
-      return getStatusInfo(currentVal, anotherVal, type);
+      return combineConfig(
+        getStatusInfo(currentVal, anotherVal, type),
+      );
     }
-  }, [anotherValue?.value, extra.value, type]);
+  }, [anotherValue?.value, extra.value, type, combineConfig]);
 
   const nextContext = useMemo<DiformContextValue>(() => {
     return {
@@ -42,7 +45,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
   const nextProps = useMemo(() => {
     return {
       ...extra,
-      statusInfo: nextContext.firstStatus ? nextContext.statusInfo : undefined,
+      diffstatus: nextContext.firstStatus ? nextContext.statusInfo : undefined,
     };
   }, [extra, nextContext.statusInfo, nextContext.firstStatus]);
 
@@ -62,7 +65,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
   return (
     <DiformProvider value={nextContext}>
       {
-        nextProps.noStatus ?
+        noStatus ?
           cloneElement(children, nextProps) :
           <DiformMark>{cloneElement(children, nextProps)}</DiformMark>
       }
@@ -87,7 +90,10 @@ const DifItem: DifItemType = (props) => {
   if (typeof context.type !== 'undefined' && names && isValidElement(children)) {
     return (
       <Form.Item {...extra}>
-        <DifItemContent name={extra.name} noStatus={noStatus}>{children}</DifItemContent>
+        <DifItemContent
+          name={extra.name}
+          noStatus={extra.noStyle || noStatus}
+        >{children}</DifItemContent>
       </Form.Item>
     );
   }

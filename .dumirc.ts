@@ -8,5 +8,11 @@ export default defineConfig({
     name: 'bello',
     editLink: false,
     footer: false,
+    nav: [
+      {
+        title: 'API',
+        link: '/components/diform',
+      },
+    ],
   },
 });

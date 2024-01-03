@@ -7,5 +7,5 @@ export type StatusCode = 'REMOVE' | 'ADD' | 'MODIFY' | 'EMPTY';
 export interface StatusInfo {
   code: StatusCode,
   color: string;
-  text: string;
+  text?: string;
 }

@@ -120,7 +120,7 @@ const Students = () => {
                               <Col span={7}>
                                 <Diform.Item
                                   name={[field.name, 'name']}
-                                  label={'姓名'}
+                                  label={'学生姓名'}
                                   style={{ marginBottom: 0 }}
                                   rules={[
                                     { required: true, message: '必填项' },
