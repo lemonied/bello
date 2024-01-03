@@ -63,11 +63,21 @@ title: Diform
 |fieldName|当前项的`field.name`|`number`|`void`|
 |noStatus|不显示默认的diff样式|`boolean`|`false`|
 
+### Diform.ErrorList
+
+> 继承 antd - [Form.ErrorList](https://ant-design.antgroup.com/components/form-cn#formerrorlist)
+
+### Diform.Info
+
+|属性|说明|类型|默认值|
+|---|---|---|---|
+|children|子代元素|(diformInfo: [DiformInfo](#diforminfo-1)) => `ReactNode`|`void`|
+
 ## hooks
 
 |hook|描述|返回值|
 |---|---|---|
-|Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#diforminfo)|
+|Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#diforminfo-1)|
 |Diform.useForm|继承 `Form.useForm`|[Form.useForm](https://ant-design.antgroup.com/components/form-cn#formuseform)|
 |Diform.useFormInstance|继承 `Form.useFormInstance`|[Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance)|
 |Diform.useWatch|继承 `Form.useWatch`|[Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)|
@@ -96,6 +106,10 @@ type NamePath = string | number | (string | number)[];
 ```ts
 interface DiformInfo {
   /**
+   * @description 当前Form类型（source/target）
+   */
+  type?: DiformTypes;
+  /**
    * @description Form的disabled属性
    */
   disabled?: boolean;
@@ -111,5 +125,13 @@ interface DiformInfo {
    * @description 当前FormListItem的field.name
    */
   fieldName?: number;
+}
+```
+
+### DiformTypes
+```ts
+enum DiformTypes {
+  SOURCE = '_DIFORM_TYPE_SOURCE_',
+  TARGET = '_DIFORM_TYPE_TARGET_',
 }
 ```

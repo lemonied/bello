@@ -7,6 +7,7 @@ import { Store, DiformProvider, DiformTypes, DiformInfoProvider } from '../utils
 import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiformInfo } from '../hooks';
 import './index.less';
+import { DifInfo } from './DifInfo';
 
 export interface DiformProps<Values=any> extends FormProps<Values> {
   diff?: Omit<DiformProps<Values>, 'diff' | 'children'> | boolean;
@@ -19,6 +20,7 @@ export interface DiformType {
   List: typeof DifList;
   ListItem: typeof DifListItem;
   ErrorList: typeof Form.ErrorList;
+  Info: typeof DifInfo;
   useForm: typeof Form.useForm;
   useFormInstance: typeof Form.useFormInstance;
   useWatch: typeof Form.useWatch;
@@ -73,19 +75,21 @@ const Diform: DiformType = (props) => {
 
   const sourceInfoContext = useMemo<DiformInfo>(() => {
     return {
+      type: sourceContext.type,
       name: sourceProps?.name,
       disabled: sourceProps?.disabled,
       namePaths: [],
     };
-  }, [sourceProps?.disabled, sourceProps?.name]);
+  }, [sourceProps?.disabled, sourceProps?.name, sourceContext.type]);
 
   const targetInfoContext = useMemo<DiformInfo>(() => {
     return {
+      type: targetContext.type,
       name: targetProps?.name,
       disabled: targetProps?.disabled,
       namePaths: [],
     };
-  }, [targetProps?.disabled, targetProps?.name]);
+  }, [targetProps?.disabled, targetProps?.name, targetContext.type]);
 
   if (sourceProps) {
     return (
@@ -121,6 +125,7 @@ Diform.Item = DifItem;
 Diform.List = DifList;
 Diform.ListItem = DifListItem;
 Diform.ErrorList = Form.ErrorList;
+Diform.Info = DifInfo;
 Diform.useForm = Form.useForm;
 Diform.useFormInstance = Form.useFormInstance;
 Diform.useWatch = Form.useWatch;

@@ -7,6 +7,8 @@
 
 ## Install
 
+> `bello`基于`antd`开发，使用`bello`前请先`npm install antd --save`
+
 ```
 npm install bello
 ```
@@ -16,4 +18,4 @@ npm install bello
 [文档](https://lemonied.github.io/bello)
 
 ### Diform
-表单对比组件 - [文档](https://lemonied.github.io/bello/components/diform)
+表单差异对比组件 - [文档](https://lemonied.github.io/bello/components/diform)

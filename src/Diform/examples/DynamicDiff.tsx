@@ -1,5 +1,5 @@
 import React from 'react';
-import { Diform } from 'bello';
+import { Diform, DiformTypes } from 'bello';
 import { Button, Card, Col, Input, InputNumber, Row, Typography } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -238,16 +238,28 @@ export default () => {
         ],
       }}
     >
-      <Diform.Item
-        name={'clazz'}
-        label={'班级'}
-        rules={[
-          { required: true },
-        ]}
-      >
-        <Input />
-      </Diform.Item>
-      <Students />
+      <Diform.Info>
+        {
+          (diformInfo) => {
+            return (
+              <Card
+                title={diformInfo.type === DiformTypes.SOURCE ? '变更前' : '变更后'}
+              >
+                <Diform.Item
+                  name={'clazz'}
+                  label={'班级'}
+                  rules={[
+                    { required: true },
+                  ]}
+                >
+                  <Input />
+                </Diform.Item>
+                <Students />
+              </Card>
+            );
+          }
+        }
+      </Diform.Info>
     </Diform>
   );
 };

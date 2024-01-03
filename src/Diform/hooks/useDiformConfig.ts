@@ -1,7 +1,6 @@
 import { ConfigProvider } from 'antd';
 import { useCallback, useContext } from 'react';
-import { DiformConfigContext } from '../utils/ConfigContext';
-import { StatusInfo } from '../utils';
+import { StatusInfo, DiformConfigContext } from '../utils';
 
 const i18n: Record<string, Record<string, string>> = {
   'zh-cn': {
