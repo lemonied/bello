@@ -1,13 +1,13 @@
 import React, { type ReactNode, useMemo, type Ref } from 'react';
-import { Form, type FormProps, type FormInstance, Row, Col } from 'antd';
+import { Form, type FormProps, type FormInstance } from 'antd';
 import { DifItem } from './DifItem';
 import { DifList } from './DifList';
 import { DifListItem } from './DifListItem';
 import { DifInfo } from './DifInfo';
 import { Store, DiformProvider, DiformTypes, DiformInfoProvider } from '../utils';
 import type { DiformContextValue, DiformInfo } from '../utils';
-import { useDiformInfo } from '../hooks';
-import './index.less';
+import { useDiffStatus, useDiformConfig, useDiformInfo } from '../hooks';
+import { DifComponent } from './DifComponent';
 
 export interface DiformProps<Values=any> extends FormProps<Values> {
   diff?: Omit<DiformProps<Values>, 'diff' | 'children'> | boolean;
@@ -25,10 +25,13 @@ export interface DiformType {
   useFormInstance: typeof Form.useFormInstance;
   useWatch: typeof Form.useWatch;
   useDiformInfo: typeof useDiformInfo;
+  useDiformStatus: typeof useDiffStatus;
 }
 const Diform: DiformType = (props) => {
 
   const { diff, ...extraProps } = props;
+
+  const config = useDiformConfig();
 
   const sourceProps = useMemo(() => {
     const defaultProps: FormProps = {
@@ -92,25 +95,29 @@ const Diform: DiformType = (props) => {
     };
   }, [targetProps?.disabled, targetProps?.name, targetContext.type]);
 
+  const DiformComponent = useMemo(() => {
+    return config?.component ?? DifComponent;
+  }, [config?.component]);
+
   if (sourceProps) {
     return (
       <DiformProvider value={sharedContext}>
-        <Row gutter={8}>
-          <Col span={12}>
+        <DiformComponent
+          source={
             <DiformInfoProvider value={sourceInfoContext}>
               <DiformProvider value={sourceContext}>
                 <Form {...sourceProps}>{targetProps.children}</Form>
               </DiformProvider>
             </DiformInfoProvider>
-          </Col>
-          <Col span={12}>
+          }
+          target={
             <DiformInfoProvider value={targetInfoContext}>
               <DiformProvider value={targetContext}>
                 <Form {...targetProps} />
               </DiformProvider>
             </DiformInfoProvider>
-          </Col>
-        </Row>
+          }
+        />
       </DiformProvider>
     );
   }
@@ -131,5 +138,6 @@ Diform.useForm = Form.useForm;
 Diform.useFormInstance = Form.useFormInstance;
 Diform.useWatch = Form.useWatch;
 Diform.useDiformInfo = useDiformInfo;
+Diform.useDiformStatus = useDiffStatus;
 
 export { Diform };

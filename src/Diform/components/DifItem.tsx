@@ -1,7 +1,7 @@
 import React, { isValidElement, cloneElement, useEffect, useRef, useMemo } from 'react';
 import type { FC, ReactElement } from 'react';
 import { Form, type FormItemProps } from 'antd';
-import { useAnotherStoreValue, useDiformCombineConfig, useDiformContext, useNames, useNextNames } from '../hooks';
+import { useAnotherStoreValue, useDiformCombineConfig, useDiformConfig, useDiformContext, useNames, useNextNames } from '../hooks';
 import { DiformProvider, getStatusInfo } from '../utils';
 import type  { DiformContextValue, NamePath } from '../utils';
 import { DiformMark } from './DiformMark';
@@ -19,6 +19,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
   
   const anotherValue = useAnotherStoreValue(name);
   const combineConfig = useDiformCombineConfig();
+  const config = useDiformConfig();
 
   const names = useNextNames(name);
 
@@ -49,6 +50,10 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     };
   }, [extra, nextContext.statusInfo, nextContext.firstStatus]);
 
+  const Wrapper = useMemo(() => {
+    return config?.wrapper ?? DiformMark;
+  }, [config?.wrapper]);
+
   useEffect(() => {
     if (names && type) {
       const currentVal = extra.value;
@@ -67,7 +72,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
       {
         noStatus ?
           cloneElement(children, nextProps) :
-          <DiformMark>{cloneElement(children, nextProps)}</DiformMark>
+          <Wrapper>{cloneElement(children, nextProps)}</Wrapper>
       }
     </DiformProvider>
   );

@@ -1,7 +1,8 @@
 import React from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import classnames from 'classnames';
-import { useDiformContext } from '../hooks';
+import { useDiffStatus } from '../hooks';
+import './index.less';
 
 interface DiformMarkProps {
   className?: string;
@@ -11,9 +12,8 @@ interface DiformMarkProps {
 const DiformMark: FC<DiformMarkProps> = (props) => {
 
   const { className, style, children } = props;
-  const { statusInfo, firstStatus } = useDiformContext();
 
-  const status = firstStatus ? statusInfo : null;
+  const status = useDiffStatus();
 
   return (
     <div
@@ -32,7 +32,7 @@ const DiformMark: FC<DiformMarkProps> = (props) => {
         status ?
           <div className={'bello-diform-mark-divider'}>
             <span style={{ borderColor: status.color }} />
-            <span style={{ color: status.color }}>{statusInfo?.text}</span>
+            <span style={{ color: status.color }}>{status?.text}</span>
             <span style={{ borderColor: status.color }} />
           </div> :
           null

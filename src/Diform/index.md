@@ -31,8 +31,14 @@ title: Diform
 #### 自定义颜色
 <code src="./examples/CustomColor.tsx"></code>
 
-#### 自定义diff样式
+#### 自定义diff样式（单个表单项） 
 <code src="./examples/CustomDiff.tsx"></code>
+
+#### 自定义diff样式（通过Provider全量自定义）
+<code src="./examples/CustomWrapper.tsx"></code>
+
+#### 自定义变更前后表单布局
+<code src="./examples/CustomComponent.tsx"></code>
 
 ## API
 
@@ -79,16 +85,24 @@ title: Diform
 |---|---|---|---|
 |children|子代元素|(diformInfo: [DiformInfo](#diforminfo-1)) => `ReactNode`|`void`|
 
+## Provider
+
+### DiformConfigProvider
+|属性|说明|类型|默认值|
+|---|---|---|---|
+|locale|多语言文案|`Record<string, string>`|`{ADD: '新增', REMOVE: '删除', MODIFY: '修改', EMPTY: '空'}`|
+|color|diff线条颜色|`Record<string, string>`|`{ADD: '#52c41a', REMOVE: '#ff4d4f', MODIFY: '#faad14', EMPTY: '#d9d9d9'}`|
+
 ## hooks
 
 |hook|描述|返回值|
 |---|---|---|
 |Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#diforminfo-1)|
+|Diform.useDiformStatus|`自定义表单项或diff样式时，用于获取当前表单项的变更状态`|[StatusInfo](#statusinfo)|
 |Diform.useForm|继承 `Form.useForm`|[Form.useForm](https://ant-design.antgroup.com/components/form-cn#formuseform)|
 |Diform.useFormInstance|继承 `Form.useFormInstance`|[Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance)|
 |Diform.useWatch|继承 `Form.useWatch`|[Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)|
 |Diform.Item.useStatus|继承 `Form.Item.useStatus`|[Form.Item.useStatus](https://ant-design.antgroup.com/components/form-cn#formitemusestatus)|
-
 
 ## 类型
 
@@ -141,3 +155,23 @@ enum DiformTypes {
   TARGET = '_DIFORM_TYPE_TARGET_',
 }
 ```
+
+### StatusInfo
+```ts
+interface StatusInfo {
+  code: StatusCode,
+  color: string;
+  text?: string;
+}
+```
+
+### StatusCode
+```ts
+type StatusCode = 'REMOVE' | 'ADD' | 'MODIFY' | 'EMPTY';
+```
+
+## FAQ
+
+### 为什么要显示两个完整的表单来对比差异？
+
+表单场景往往非常复杂，存在各种表单联动场景，如果只显示一个表单的话，一些表单项因为联动或删除而导致的隐藏将不会显示在页面上，从而导致数据审查上的遗漏。

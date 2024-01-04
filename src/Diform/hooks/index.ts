@@ -1,6 +1,7 @@
 export * from './useAnotherType';
 export * from './useDebounceFn';
 export * from './useDeepCompareMemo';
+export * from './useDiffStatus';
 export * from './useDiformConfig';
 export * from './useDiformInfo';
 export * from './useDiformContext';
