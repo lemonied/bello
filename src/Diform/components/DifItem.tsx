@@ -43,13 +43,6 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     };
   }, [firstStatus, nextStatusInfo, statusInfo]);
 
-  const nextProps = useMemo(() => {
-    return {
-      ...extra,
-      diffstatus: nextContext.firstStatus ? nextContext.statusInfo : undefined,
-    };
-  }, [extra, nextContext.statusInfo, nextContext.firstStatus]);
-
   const Wrapper = useMemo(() => {
     return config?.wrapper ?? DiformMark;
   }, [config?.wrapper]);
@@ -57,9 +50,9 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
   useEffect(() => {
     if (names && type) {
       const currentVal = extra.value;
-      storeRef.current?.emit({ type, names, value: currentVal, statusInfo: nextStatusInfo });
+      storeRef.current?.emit({ type, names, value: currentVal });
     }
-  }, [extra.value, names, nextStatusInfo, type]);
+  }, [extra.value, names, type]);
 
   useEffect(() => {
     if (type && names) {
@@ -71,8 +64,8 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     <DiformProvider value={nextContext}>
       {
         noStatus ?
-          cloneElement(children, nextProps) :
-          <Wrapper>{cloneElement(children, nextProps)}</Wrapper>
+          cloneElement(children, extra) :
+          <Wrapper>{cloneElement(children, extra)}</Wrapper>
       }
     </DiformProvider>
   );

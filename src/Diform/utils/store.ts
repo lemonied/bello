@@ -1,5 +1,5 @@
 import { escapeRegExp, pickBy } from 'lodash';
-import type { NamePaths, StatusInfo } from './model';
+import type { NamePaths } from './model';
 import type { DiformTypes } from './constants';
 import { _isEqual } from './common';
 
@@ -7,7 +7,6 @@ export interface StoreValue {
   type: DiformTypes;
   names: NamePaths;
   value?: any;
-  statusInfo?: StatusInfo;
   remove?: boolean;
 }
 

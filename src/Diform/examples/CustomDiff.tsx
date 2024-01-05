@@ -1,21 +1,21 @@
 import React, { ReactElement, cloneElement } from 'react';
 import { DatePicker, Input } from 'antd';
-import { Diform, PassProps, StatusInfo } from 'bello';
+import { Diform, PassProps } from 'bello';
 
 interface CustomWrapperProps {
-  diffstatus?: StatusInfo;
   children: ReactElement;
   [prop: string]: any;
 }
 const CustomWrapper = (props: CustomWrapperProps) => {
 
-  const { diffstatus, children, ...extra } = props;
+  const { children, ...extra } = props;
+  const status = Diform.useDiformStatus();
 
   return (
     <div
       style={{
         padding: 8,
-        background: diffstatus?.color,
+        background: status?.color,
       }}
     >{cloneElement(children, extra)}</div>
   );
