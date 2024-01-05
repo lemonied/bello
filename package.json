@@ -1,7 +1,7 @@
 {
   "name": "bello",
-  "version": "0.0.11",
-  "description": "A react library developed with dumi",
+  "version": "0.0.12",
+  "description": "A react ui library",
   "authors": [
     "chenjiyuan.super@gamil.com"
   ],
@@ -49,13 +49,14 @@
     "registry": "https://registry.npmjs.org"
   },
   "peerDependencies": {
-    "antd": "^5.0.0",
+    "antd": "^4.22.0 || ^5.0.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
     "classnames": "^2.0.0",
-    "lodash": "^4.0.0"
+    "lodash": "^4.0.0",
+    "styled-components": "^6.0.0"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -65,7 +66,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
-    "antd": "^5.12.1",
+    "antd": "^5.12.8",
     "dumi": "^2.2.13",
     "eslint": "^8.23.0",
     "eslint-plugin-react-hooks": "^4.6.0",
