@@ -1,14 +1,16 @@
 import { defineConfig } from 'dumi';
 
+const BASE_PATH = '/bello/';
+
 export default defineConfig({
   outputPath: 'docs-dist',
-  base: '/bello/',
-  publicPath: '/bello/',
+  base: BASE_PATH,
+  publicPath: BASE_PATH,
   themeConfig: {
     name: 'bello',
     editLink: false,
     footer: false,
-    logo: '/bello/logo.png',
+    logo: `${BASE_PATH}logo.png`,
     nav: [
       {
         title: 'API',
