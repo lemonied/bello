@@ -1,5 +1,5 @@
 ---
-title: PassProps
+title: PassProps-自定义表单项
 ---
 
 # 简单表单自定义组件
