@@ -7,7 +7,13 @@ export interface DiformComponentProps {
 export interface DiformConfig {
   locale?: Record<string, string>;
   color?: Record<string, string>;
+  /**
+   * @description 自定义差异表单布局方式
+   */
   component?: FC<DiformComponentProps> | ComponentClass<DiformComponentProps>;
+  /**
+   * @description 自定义表单项diff样式
+   */
   wrapper?: FC<any> | ComponentClass<any>;
 }
 export const DiformConfigContext = createContext<DiformConfig | null>(null);

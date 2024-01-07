@@ -83,7 +83,7 @@ export default () => {
                           fieldName={field.name}
                         >
                           <Row gutter={8}>
-                            <Col span={8}>
+                            <Col span={24}>
                               <Diform.Item
                                 name={[field.name, 'type']}
                                 style={{ marginBottom: 0 }}

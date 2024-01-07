@@ -29,7 +29,7 @@ const Parents = () => {
                         <Col key={field.key} span={24}>
                           <Diform.ListItem fieldName={field.name}>
                             <Row gutter={8} align={'middle'}>
-                              <Col span={7}>
+                              <Col span={11} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'name']}
                                   label={'姓名'}
@@ -41,7 +41,7 @@ const Parents = () => {
                                   <Input />
                                 </Diform.Item>
                               </Col>
-                              <Col span={7}>
+                              <Col span={11} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'relation']}
                                   label={'关系'}
@@ -50,7 +50,7 @@ const Parents = () => {
                                   <Input />
                                 </Diform.Item>
                               </Col>
-                              <Col span={7}>
+                              <Col span={20} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'phone']}
                                   label={'手机号'}
@@ -117,7 +117,7 @@ const Students = () => {
                         <Col key={field.key} span={24}>
                           <Diform.ListItem fieldName={field.name}>
                             <Row gutter={[8, 8]} align={'middle'}>
-                              <Col span={7}>
+                              <Col span={11} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'name']}
                                   label={'学生姓名'}
@@ -138,7 +138,7 @@ const Students = () => {
                                   <Input />
                                 </Diform.Item>
                               </Col>
-                              <Col span={7}>
+                              <Col span={11} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'age']}
                                   label={'年龄'}
@@ -147,7 +147,7 @@ const Students = () => {
                                   <InputNumber style={{ width: '100%' }} />
                                 </Diform.Item>
                               </Col>
-                              <Col span={7}>
+                              <Col span={20} xxl={7}>
                                 <Diform.Item
                                   name={[field.name, 'height']}
                                   label={'身高'}
@@ -203,8 +203,8 @@ export default () => {
           students: [
             {
               name: '江小明',
-              age: '13',
-              height: '160',
+              age: 13,
+              height: 160,
               parents: [
                 {
                   name: '江大白',
@@ -232,8 +232,8 @@ export default () => {
           students: [
             {
               name: '江小明',
-              age: '12',
-              height: '155',
+              age: 12,
+              height: 155,
               parents: [
                 {
                   name: '江大白',
@@ -256,6 +256,7 @@ export default () => {
               return (
                 <Card
                   title={diformInfo.type === DiformTypes.SOURCE ? '变更前' : '变更后'}
+                  bodyStyle={{ padding: 8 }}
                 >
                   <Diform.Item
                     name={'clazz'}

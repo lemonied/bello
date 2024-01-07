@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
-import type { NamePaths, StatusInfo } from './model';
-import type { DiformTypes } from './constants';
+import type { NamePaths, StatusInfo, DiformTypes } from './model';
 import type { Store } from './store';
 
 export interface DiformContextValue {

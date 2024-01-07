@@ -1,25 +1,23 @@
-import type { StatusCode, StatusInfo } from './model';
+import { StatusCode } from './model';
 
-export const DIFF_STATUS: Record<StatusCode, StatusInfo> = {
-  REMOVE: {
-    code: 'REMOVE',
-    color: '#ff4d4f',
+export const DIFORM_I18N: Record<string, Record<StatusCode, string>> = {
+  'zh-cn': {
+    ADD: '新增',
+    REMOVE: '删除',
+    MODIFY: '修改',
+    EMPTY: '空',
   },
-  ADD: {
-    code: 'ADD',
-    color: '#52c41a',
-  },
-  MODIFY: {
-    code: 'MODIFY',
-    color: '#faad14',
-  },
-  EMPTY: {
-    code: 'EMPTY',
-    color: '#d9d9d9',
+  'en': {
+    ADD: 'New',
+    REMOVE: 'Remove',
+    MODIFY: 'Modified',
+    EMPTY: 'Empty',
   },
 };
 
-export enum DiformTypes {
-  SOURCE = '_DIFORM_TYPE_SOURCE_',
-  TARGET = '_DIFORM_TYPE_TARGET_',
-}
+export const DIFF_STATUS_COLOR: Record<StatusCode, string> = {
+  [StatusCode.REMOVE]: '#ff4d4f',
+  [StatusCode.ADD]: '#52c41a',
+  [StatusCode.MODIFY]: '#faad14',
+  [StatusCode.EMPTY]: '#d9d9d9',
+};

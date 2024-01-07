@@ -1,6 +1,5 @@
 import React, { FC, ReactNode, createContext, useContext, useMemo } from 'react';
-import { DiformTypes } from './constants';
-import { NamePaths } from './model';
+import { NamePaths, DiformTypes } from './model';
 
 export interface DiformInfo {
   /**

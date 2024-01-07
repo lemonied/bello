@@ -54,7 +54,7 @@ export default () => {
               label={'收入'}
               name={'income'}
             >
-              <InputNumber min={1} />
+              <InputNumber min={1} style={{ width: '100%' }} />
             </Diform.Item>
           </Col>
         </Row>

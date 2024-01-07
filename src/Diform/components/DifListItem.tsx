@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
-import { DIFF_STATUS, DiformInfoProvider, DiformProvider, DiformTypes } from '../utils';
+import { DiformInfoProvider, DiformProvider, DiformTypes, StatusCode } from '../utils';
 import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiformCombineConfig, useDiformConfig, useDiformContext, useDiformInfo, useNextAnotherFieldName } from '../hooks';
 import { DiformMark } from './DiformMark';
@@ -23,9 +23,9 @@ const DifListItemContent: FC<Omit<DifListItemProps, 'fieldName'>> = (props) => {
     }
     if (typeof nextAnotherFieldName !== 'number') {
       if (type === DiformTypes.SOURCE) {
-        return combineConfig(DIFF_STATUS.REMOVE);
+        return combineConfig(StatusCode.REMOVE);
       }
-      return combineConfig(DIFF_STATUS.ADD);
+      return combineConfig(StatusCode.ADD);
     }
   }, [nextAnotherFieldName, statusInfo, type, combineConfig]);
 

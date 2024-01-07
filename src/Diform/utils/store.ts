@@ -1,17 +1,19 @@
-import { escapeRegExp, pickBy } from 'lodash';
+import { escapeRegExp, isEqual, pickBy } from 'lodash';
+import type { DiformTypes } from './model';
 import type { NamePaths } from './model';
-import type { DiformTypes } from './constants';
-import { _isEqual } from './common';
 
 export interface StoreValue {
   type: DiformTypes;
   names: NamePaths;
   value?: any;
+}
+
+export interface StoreEvent extends StoreValue {
   remove?: boolean;
 }
 
 export interface Subscriber extends Pick<StoreValue, 'type' | 'names'> {
-  callback: (storeValue: StoreValue) => void;
+  callback: (storeEvent: StoreEvent) => void;
   key: string;
   /**
    * @description 是否为模糊匹配
@@ -39,12 +41,12 @@ export class Store {
     return list.join(Store.keySplit);
   }
 
-  static updateState(snapshots: Record<string, StoreValue>, snapshot: StoreValue) {
-    const label = [snapshot.type, ...snapshot.names].join(Store.keySplit);
-    if (snapshot.remove) {
+  static updateState(snapshots: Record<string, StoreValue>, storeEvent: StoreEvent) {
+    const label = Store.join([storeEvent.type, ...storeEvent.names]);
+    if (storeEvent.remove) {
       delete snapshots[label];
     } else {
-      snapshots[label] = snapshot;
+      snapshots[label] = storeEvent;
     }
     return snapshots;
   }
@@ -57,16 +59,16 @@ export class Store {
     return this.state;
   }
 
-  getSnapshot(options: Partial<Pick<Subscriber, 'names' | 'type'>>) {
+  getSnapshot(options: Partial<Pick<StoreValue, 'names' | 'type'>>) {
     const { names, type } = options;
     if (names && type) {
       return this.state[
-        [type, ...names].join(Store.keySplit)
+        Store.join([type, ...names])
       ];
     }
   }
 
-  getUniqueFieldsSnapshots(options: Partial<Pick<Subscriber, 'names' | 'type' | 'uniqueKey'>>) {
+  getUniqueFieldsSnapshots(options: Partial<Pick<StoreValue, 'names' | 'type'> & { uniqueKey: NamePaths }>) {
     const { names, type, uniqueKey } = options;
     if (names && type && uniqueKey) {
       return pickBy(this.state, (_, key) => {
@@ -79,7 +81,7 @@ export class Store {
     }
   }
 
-  getChildSnapshots(options: Partial<Pick<Subscriber, 'names' | 'type'>>) {
+  getChildSnapshots(options: Partial<Pick<StoreValue, 'names' | 'type'>>) {
     const { names, type } = options;
     if (names && type) {
       const label = Store.join([type, ...names]);
@@ -87,12 +89,12 @@ export class Store {
     }
   }
 
-  emit(storeValue: StoreValue) {
-    const label = Store.join([storeValue.type, ...storeValue.names]);
+  emit(storeEvent: StoreEvent) {
+    const label = Store.join([storeEvent.type, ...storeEvent.names]);
     const preStoreValue = this.state[label];
-    this.setState(storeValue);
+    this.setState(storeEvent);
     for (const subscriber of this.subscribers) {
-      if (subscriber.onlyValue && !storeValue.remove && preStoreValue && _isEqual(storeValue.value, preStoreValue.value)) {
+      if (subscriber.onlyValue && !storeEvent.remove && preStoreValue && isEqual(storeEvent.value, preStoreValue.value)) {
         continue;
       }
       if (
@@ -104,7 +106,7 @@ export class Store {
         ])}$`).test(label)) ||
         label === subscriber.key
       ) {
-        subscriber.callback(storeValue);
+        subscriber.callback(storeEvent);
       }
     }
   }
@@ -116,7 +118,7 @@ export class Store {
     callback: Subscriber['callback'],
     options: Omit<Subscriber, 'callback' | 'key'>,
   ) {
-    const key = [options.type, ...options.names].join(Store.keySplit);
+    const key = Store.join([options.type, ...options.names]);
     const subscriber: Subscriber = {
       ...options,
       key,

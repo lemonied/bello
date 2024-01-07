@@ -7,9 +7,9 @@ export const DifComponent = (props: DiformComponentProps) => {
   const { source, target } = props;
 
   return (
-    <Row gutter={8}>
-      <Col span={12}>{source}</Col>
-      <Col span={12}>{target}</Col>
+    <Row gutter={[8, 8]}>
+      <Col span={24} lg={12}>{source}</Col>
+      <Col span={24} lg={12}>{target}</Col>
     </Row>
   );
 };

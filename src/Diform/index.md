@@ -7,7 +7,7 @@ title: Diform-表单差异对比
 某些业务场景下，需要将表单变更前后的差异更直观的展示出来
 
 ## 组件优势/原则
-- 二次开发`ant Form`，原API保持不变，最小的改造成本
+- 二次开发`antd Form`，原API保持不变，最小的改造成本
 - 表单代码只需要写一次，通过配置项开启/关闭Diff差异对比，最小的开发成本
 
 ## 示例
@@ -92,6 +92,8 @@ title: Diform-表单差异对比
 |---|---|---|---|
 |locale|多语言文案|`Record<string, string>`|`{ADD: '新增', REMOVE: '删除', MODIFY: '修改', EMPTY: '空'}`|
 |color|diff线条颜色|`Record<string, string>`|`{ADD: '#52c41a', REMOVE: '#ff4d4f', MODIFY: '#faad14', EMPTY: '#d9d9d9'}`|
+|component|自定义差异表单布局方式|`FC<DiformComponentProps> \| ComponentClass<DiformComponentProps>`|`左右布局`|
+|wrapper|自定义表单项diff样式|`FC<any> \| ComponentClass<any>`|`虚线线框`|
 
 ## hooks
 
@@ -150,7 +152,7 @@ interface DiformInfo {
 
 ### DiformTypes
 ```ts
-enum DiformTypes {
+export enum DiformTypes {
   SOURCE = '_DIFORM_TYPE_SOURCE_',
   TARGET = '_DIFORM_TYPE_TARGET_',
 }
@@ -158,16 +160,29 @@ enum DiformTypes {
 
 ### StatusInfo
 ```ts
-interface StatusInfo {
+export interface StatusInfo {
   code: StatusCode,
   color: string;
-  text?: string;
+  text: string;
 }
 ```
 
 ### StatusCode
 ```ts
-type StatusCode = 'REMOVE' | 'ADD' | 'MODIFY' | 'EMPTY';
+export enum StatusCode {
+  REMOVE = 'REMOVE',
+  ADD = 'ADD',
+  MODIFY = 'MODIFY',
+  EMPTY = 'EMPTY',
+}
+```
+
+### DiformComponentProps
+```ts
+export interface DiformComponentProps {
+  source?: ReactNode;
+  target?: ReactNode;
+}
 ```
 
 ## FAQ
@@ -175,3 +190,11 @@ type StatusCode = 'REMOVE' | 'ADD' | 'MODIFY' | 'EMPTY';
 ### 为什么要显示两个完整的表单来对比差异？
 
 表单场景往往非常复杂，存在各种表单联动场景，如果只显示一个表单的话，一些表单项因为联动或删除而导致的隐藏将不会显示在页面上，从而导致数据审查上的遗漏。
+
+### 为什么两个相同的值状态却显示“修改”？
+
+请确定这两条数据的数据类型相同，字符串`"0"`不等于数字`0`
+
+另外：
+- 当数据为`undefined`、`null`、`''`、`[]`时，这个字段将被认为是`空`;  
+- 两个数据的对比方式使用`lodash.isEqual`;

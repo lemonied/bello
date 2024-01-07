@@ -1,21 +1,6 @@
 import { ConfigProvider } from 'antd';
 import { useCallback, useContext } from 'react';
-import { StatusInfo, DiformConfigContext } from '../utils';
-
-const i18n: Record<string, Record<string, string>> = {
-  'zh-cn': {
-    ADD: '新增',
-    REMOVE: '删除',
-    MODIFY: '修改',
-    EMPTY: '空',
-  },
-  'en': {
-    ADD: 'New',
-    REMOVE: 'Remove',
-    MODIFY: 'Modified',
-    EMPTY: 'Empty',
-  },
-};
+import { StatusInfo, DiformConfigContext, DIFORM_I18N, StatusCode, DIFF_STATUS_COLOR } from '../utils';
 
 export const useDiformConfig = () => {
   return useContext(DiformConfigContext);
@@ -25,9 +10,9 @@ export const useDiformI18n = () => {
   const config = useContext(ConfigProvider.ConfigContext);
   const diformConfig = useDiformConfig();
   const locale = config.locale?.locale ?? 'en';
-  return useCallback((code: string) => {
+  return useCallback((code: StatusCode) => {
     const customLocale = diformConfig?.locale;
-    const defaultLocale = i18n[locale] ?? i18n.en;
+    const defaultLocale = DIFORM_I18N[locale] ?? DIFORM_I18N.en;
     const map = Object.assign({}, defaultLocale, customLocale);
     return map[code] ?? code;
   }, [locale, diformConfig?.locale]);
@@ -36,13 +21,13 @@ export const useDiformI18n = () => {
 export const useDiformCombineConfig = () => {
   const intl = useDiformI18n();
   const diformConfig = useDiformConfig();
-  return useCallback((statusInfo?: StatusInfo) => {
-    if (statusInfo) {
+  return useCallback((statusCode?: StatusCode) => {
+    if (statusCode) {
       return {
-        ...statusInfo,
-        text: intl(statusInfo.code),
-        color: diformConfig?.color?.[statusInfo.code] ?? statusInfo.color,
-      };
+        code: statusCode,
+        text: intl(statusCode),
+        color: diformConfig?.color?.[statusCode] ?? DIFF_STATUS_COLOR[statusCode],
+      } as StatusInfo;
     }
   }, [diformConfig?.color, intl]);
 };

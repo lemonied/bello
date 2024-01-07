@@ -2,24 +2,28 @@ import React, { isValidElement, cloneElement, useEffect, useRef, useMemo } from 
 import type { FC, ReactElement } from 'react';
 import { Form, type FormItemProps } from 'antd';
 import { useAnotherStoreValue, useDiformCombineConfig, useDiformConfig, useDiformContext, useNames, useNextNames } from '../hooks';
-import { DiformProvider, getStatusInfo } from '../utils';
+import { DiformProvider, DiformTypes, StatusCode, _isEmpty } from '../utils';
 import type  { DiformContextValue, NamePath } from '../utils';
 import { DiformMark } from './DiformMark';
+import { isEqual } from 'lodash';
 
-interface DifItemContentProps {
+interface DifItemPropsType {
+  noStatus?: boolean;
+}
+
+interface DifItemContentProps extends DifItemPropsType {
   children: ReactElement;
   value?: any;
   name?: NamePath;
-  noStatus?: boolean;
   [prop: string]: any;
 }
 const DifItemContent: FC<DifItemContentProps> = (props) => {
   const { children, name, noStatus, ...extra } = props;
   const { type, store, statusInfo, firstStatus } = useDiformContext();
+  const config = useDiformConfig();
   
   const anotherValue = useAnotherStoreValue(name);
   const combineConfig = useDiformCombineConfig();
-  const config = useDiformConfig();
 
   const names = useNextNames(name);
 
@@ -30,9 +34,24 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
     if (type) {
       const currentVal = extra.value;
       const anotherVal = anotherValue?.value;
-      return combineConfig(
-        getStatusInfo(currentVal, anotherVal, type),
-      );
+      const statusCode = (() => {
+        if (_isEmpty(currentVal) && !_isEmpty(anotherVal)) {
+          if (type === DiformTypes.SOURCE) {
+            return StatusCode.EMPTY;
+          }
+          return StatusCode.REMOVE;
+        }
+        if (!_isEmpty(currentVal) && _isEmpty(anotherVal)) {
+          if (type === DiformTypes.SOURCE) {
+            return StatusCode.REMOVE;
+          }
+          return StatusCode.ADD;
+        }
+        if (!_isEmpty(currentVal) && !_isEmpty(anotherVal) && !isEqual(currentVal, anotherVal)) {
+          return StatusCode.MODIFY;
+        }
+      })();
+      return combineConfig(statusCode);
     }
   }, [anotherValue?.value, extra.value, type, combineConfig]);
 
@@ -72,9 +91,7 @@ const DifItemContent: FC<DifItemContentProps> = (props) => {
 
 };
 
-export interface DifItemProps extends FormItemProps {
-  noStatus?: boolean;
-}
+export type DifItemProps = FormItemProps & DifItemPropsType;
 export interface DifItemType {
   (props: DifItemProps): React.JSX.Element;
   useStatus: typeof Form.Item.useStatus;
