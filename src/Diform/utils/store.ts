@@ -1,6 +1,5 @@
-import { escapeRegExp, isEqual, pickBy } from 'lodash';
-import type { DiformTypes } from './model';
-import type { NamePaths } from './model';
+import { escapeRegExp, pickBy } from 'lodash';
+import type { DiformTypes, NamePaths } from './model';
 
 export interface StoreValue {
   type: DiformTypes;
@@ -23,10 +22,6 @@ export interface Subscriber extends Pick<StoreValue, 'type' | 'names'> {
    * @description 是否监听符合uniqueKey的所有值变化
    */
   uniqueKey?: NamePaths;
-  /**
-   * @description 是否只在value发生变化时触发订阅
-   */
-  onlyValue?: boolean;
 }
 
 export class Store {
@@ -91,12 +86,8 @@ export class Store {
 
   emit(storeEvent: StoreEvent) {
     const label = Store.join([storeEvent.type, ...storeEvent.names]);
-    const preStoreValue = this.state[label];
     this.setState(storeEvent);
     for (const subscriber of this.subscribers) {
-      if (subscriber.onlyValue && !storeEvent.remove && preStoreValue && isEqual(storeEvent.value, preStoreValue.value)) {
-        continue;
-      }
       if (
         (subscriber.fuzzy && label.startsWith(subscriber.key)) ||
         (subscriber.uniqueKey && new RegExp(`^${Store.join([
@@ -112,7 +103,7 @@ export class Store {
   }
 
   /**
-   * @description 注册订阅 
+   * @description 注册订阅
    */
   on(
     callback: Subscriber['callback'],

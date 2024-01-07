@@ -8,6 +8,7 @@ export enum StatusCode {
   MODIFY = 'MODIFY',
   EMPTY = 'EMPTY',
 }
+
 export interface StatusInfo {
   code: StatusCode,
   color: string;

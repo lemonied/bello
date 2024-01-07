@@ -21,7 +21,7 @@ export const useStoreValue = (type?: DiformTypes, names?: NamePaths) => {
       debounced(store.getSnapshot({ type, names }));
       const cancel = store.on((storeValue) => {
         debounced(storeValue.remove ? undefined : storeValue);
-      }, { names, type, onlyValue: true });
+      }, { names, type });
       return () => {
         cancel();
         debounced.cancel();
@@ -71,7 +71,7 @@ export const useAnotherUniqueFields = () => {
           Store.updateState({ ...stateRef.current }, storeValue) :
           store?.getUniqueFieldsSnapshots({ names: anotherFullNamePath, type, uniqueKey });
         debounced();
-      }, { names: anotherFullNamePath, type, uniqueKey, onlyValue: true });
+      }, { names: anotherFullNamePath, type, uniqueKey });
       return () => {
         cancel();
         debounced.cancel();
@@ -103,7 +103,7 @@ export const useAnotherExistenceValue = (fieldName?: number) => {
           Store.updateState({ ...stateRef.current }, storeValue) :
           store?.getChildSnapshots({ names, type });
         debounced();
-      }, { names, type, onlyValue: true, fuzzy: true });
+      }, { names, type, fuzzy: true });
       return () => {
         cancel();
         debounced.cancel();
