@@ -46,34 +46,34 @@ title: Diform-表单差异对比
 
 > 继承 antd - [Form](https://ant-design.antgroup.com/components/form-cn#form)
 
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|diff|是否开启diff对比|[FormProps](https://ant-design.antgroup.com/components/form-cn#form) \| `true`|`void`|
+| 属性 | 说明             | 类型                                                                           | 默认值 |
+| ---- | ---------------- | ------------------------------------------------------------------------------ | ------ |
+| diff | 是否开启diff对比 | [FormProps](https://ant-design.antgroup.com/components/form-cn#form) \| `true` | `void` |
 
 ### Diform.Item
 
 > 继承 antd - [Form.Item](https://ant-design.antgroup.com/components/form-cn#formitem)
 
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|noStatus|不显示默认的diff样式 - 优先级低于`noStyle`|`boolean`|`false`|
+| 属性     | 说明                                       | 类型      | 默认值  |
+| -------- | ------------------------------------------ | --------- | ------- |
+| noStatus | 不显示默认的diff样式 - 优先级低于`noStyle` | `boolean` | `false` |
 
 ### Diform.List
 
 > 继承 antd - [Form.List](https://ant-design.antgroup.com/components/form-cn#formlist)
 
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|uniqueKey|列表项的唯一key|[NamePath](#namepath)|`void`|
+| 属性      | 说明            | 类型                  | 默认值 |
+| --------- | --------------- | --------------------- | ------ |
+| uniqueKey | 列表项的唯一key | [NamePath](#namepath) | `void` |
 
 ### Diform.ListItem
 
 > 包裹在`Diform.List`下每一项的最外层 `必需`
 
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|fieldName|当前项的`field.name`|`number`|`void`|
-|noStatus|不显示默认的diff样式|`boolean`|`false`|
+| 属性      | 说明                 | 类型      | 默认值  |
+| --------- | -------------------- | --------- | ------- |
+| fieldName | 当前项的`field.name` | `number`  | `void`  |
+| noStatus  | 不显示默认的diff样式 | `boolean` | `false` |
 
 ### Diform.ErrorList
 
@@ -81,30 +81,30 @@ title: Diform-表单差异对比
 
 ### Diform.Info
 
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|children|子代元素|(diformInfo: [DiformInfo](#diforminfo-1)) => `ReactNode`|`void`|
+| 属性     | 说明     | 类型                                                     | 默认值 |
+| -------- | -------- | -------------------------------------------------------- | ------ |
+| children | 子代元素 | (diformInfo: [DiformInfo](#diforminfo-1)) => `ReactNode` | `void` |
 
 ## Provider
 
 ### DiformConfigProvider
-|属性|说明|类型|默认值|
-|---|---|---|---|
-|locale|多语言文案|`Record<string, string>`|`{ADD: '新增', REMOVE: '删除', MODIFY: '修改', EMPTY: '空'}`|
-|color|diff线条颜色|`Record<string, string>`|`{ADD: '#52c41a', REMOVE: '#ff4d4f', MODIFY: '#faad14', EMPTY: '#d9d9d9'}`|
-|component|自定义差异表单布局方式|`FC<DiformComponentProps> \| ComponentClass<DiformComponentProps>`|`左右布局`|
-|wrapper|自定义表单项diff样式|`FC<any> \| ComponentClass<any>`|`虚线线框`|
+| 属性      | 说明                   | 类型                                                               | 默认值                                                                     |
+| --------- | ---------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| locale    | 多语言文案             | `Record<string, string>`                                           | `{ADD: '新增', REMOVE: '删除', MODIFY: '修改', EMPTY: '空'}`               |
+| color     | diff线条颜色           | `Record<string, string>`                                           | `{ADD: '#52c41a', REMOVE: '#ff4d4f', MODIFY: '#faad14', EMPTY: '#d9d9d9'}` |
+| component | 自定义差异表单布局方式 | `FC<DiformComponentProps> \| ComponentClass<DiformComponentProps>` | `左右布局`                                                                 |
+| wrapper   | 自定义表单项diff样式   | `FC<any> \| ComponentClass<any>`                                   | `虚线线框`                                                                 |
 
 ## hooks
 
-|hook|描述|返回值|
-|---|---|---|
-|Diform.useDiformInfo|`用于在较复杂的表单后代组件中获取Form的基本信息`|[DiformInfo](#diforminfo-1)|
-|Diform.useDiformStatus|`自定义表单项或diff样式时，用于获取当前表单项的变更状态`|[StatusInfo](#statusinfo)|
-|Diform.useForm|继承 `Form.useForm`|[Form.useForm](https://ant-design.antgroup.com/components/form-cn#formuseform)|
-|Diform.useFormInstance|继承 `Form.useFormInstance`|[Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance)|
-|Diform.useWatch|继承 `Form.useWatch`|[Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)|
-|Diform.Item.useStatus|继承 `Form.Item.useStatus`|[Form.Item.useStatus](https://ant-design.antgroup.com/components/form-cn#formitemusestatus)|
+| hook                   | 描述                                                     | 返回值                                                                                         |
+| ---------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Diform.useDiformInfo   | `用于在较复杂的表单后代组件中获取Form的基本信息`         | [DiformInfo](#diforminfo-1)                                                                    |
+| Diform.useDiformStatus | `自定义表单项或diff样式时，用于获取当前表单项的变更状态` | [StatusInfo](#statusinfo)                                                                      |
+| Diform.useForm         | 继承 `Form.useForm`                                      | [Form.useForm](https://ant-design.antgroup.com/components/form-cn#formuseform)                 |
+| Diform.useFormInstance | 继承 `Form.useFormInstance`                              | [Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance) |
+| Diform.useWatch        | 继承 `Form.useWatch`                                     | [Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)               |
+| Diform.Item.useStatus  | 继承 `Form.Item.useStatus`                               | [Form.Item.useStatus](https://ant-design.antgroup.com/components/form-cn#formitemusestatus)    |
 
 ## 类型
 
