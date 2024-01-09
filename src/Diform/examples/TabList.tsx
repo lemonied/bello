@@ -1,5 +1,5 @@
 import React from 'react';
-import { Diform, PassProps, StatusInfo } from 'bello';
+import { Diform, PassProps } from 'bello';
 import { Col, Input, Row, Tabs } from 'antd';
 
 export default () => {
@@ -16,6 +16,7 @@ export default () => {
             products: [
               {
                 type: 'iphone 15 pro',
+                ram: '8gb',
               },
             ],
           },
@@ -24,6 +25,7 @@ export default () => {
           products: [
             {
               type: 'iphone 15 pro max',
+              ram: '16gb',
             },
           ],
         }}
@@ -51,20 +53,19 @@ export default () => {
                           fieldName={field.name}
                           noStatus
                         >
-                          <PassProps>
+                          <Diform.DifStatus>
                             {
-                              (itemProps) => {
-                                const diffstatus = itemProps.diffstatus as StatusInfo;
+                              (diffstatus) => {
                                 return (
                                   <Diform.Item
-                                    noStyle
                                     name={[field.name, 'type']}
+                                    noStyle
                                   >
                                     <PassProps>
                                       {
                                         p => {
                                           return (
-                                            <span style={{ color: diffstatus?.color }}>{p.value}</span>
+                                            <span style={{ color: diffstatus?.color }}>{p.value || '未配置'}</span>
                                           );
                                         }
                                       }
@@ -73,7 +74,7 @@ export default () => {
                                 );
                               }
                             }
-                          </PassProps>
+                          </Diform.DifStatus>
                         </Diform.ListItem>
                       ),
                       key: `${field.name}`,
@@ -83,9 +84,19 @@ export default () => {
                           fieldName={field.name}
                         >
                           <Row gutter={8}>
-                            <Col span={24}>
+                            <Col span={12}>
                               <Diform.Item
+                                label={'型号'}
                                 name={[field.name, 'type']}
+                                style={{ marginBottom: 0 }}
+                              >
+                                <Input />
+                              </Diform.Item>
+                            </Col>
+                            <Col span={12}>
+                              <Diform.Item
+                                label={'内存'}
+                                name={[field.name, 'ram']}
                                 style={{ marginBottom: 0 }}
                               >
                                 <Input />

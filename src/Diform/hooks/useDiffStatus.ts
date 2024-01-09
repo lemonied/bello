@@ -10,7 +10,7 @@ export const useDiffStatus = () => {
     return () => clearTimeout(timer);
   }, []);
   const ret = useMemo(() => {
-    return firstStatus ? statusInfo : null;
+    return firstStatus ? statusInfo : undefined;
   }, [firstStatus, statusInfo]);
-  return avaliable ? ret : null;
+  return avaliable ? ret : undefined;
 };

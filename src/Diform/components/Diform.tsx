@@ -8,6 +8,7 @@ import { Store, DiformProvider, DiformTypes, DiformInfoProvider } from '../utils
 import type { DiformContextValue, DiformInfo } from '../utils';
 import { useDiffStatus, useDiformConfig, useDiformInfo } from '../hooks';
 import { DifComponent } from './DifComponent';
+import { DifStatus } from './DifStatus';
 
 export interface DiformProps<Values=any> extends FormProps<Values> {
   diff?: Omit<DiformProps<Values>, 'diff' | 'children'> | boolean;
@@ -21,6 +22,7 @@ export interface DiformType {
   ListItem: typeof DifListItem;
   ErrorList: typeof Form.ErrorList;
   Info: typeof DifInfo;
+  DifStatus: typeof DifStatus;
   useForm: typeof Form.useForm;
   useFormInstance: typeof Form.useFormInstance;
   useWatch: typeof Form.useWatch;
@@ -134,6 +136,7 @@ Diform.List = DifList;
 Diform.ListItem = DifListItem;
 Diform.ErrorList = Form.ErrorList;
 Diform.Info = DifInfo;
+Diform.DifStatus = DifStatus;
 Diform.useForm = Form.useForm;
 Diform.useFormInstance = Form.useFormInstance;
 Diform.useWatch = Form.useWatch;

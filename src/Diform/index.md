@@ -85,6 +85,14 @@ title: Diform-表单差异对比
 | -------- | -------- | -------------------------------------------------------- | ------ |
 | children | 子代元素 | (diformInfo: [DiformInfo](#diforminfo-1)) => `ReactNode` | `void` |
 
+### Diform.DifStatus
+
+> 获取父代的diff状态信息
+
+| 属性     | 说明     | 类型                                                   | 默认值 |
+| -------- | -------- | ------------------------------------------------------ | ------ |
+| children | 子代元素 | (diffStatus: [StatusInfo](#statusinfo)) => `ReactNode` | `void` |
+
 ## Provider
 
 ### DiformConfigProvider
