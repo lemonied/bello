@@ -14,7 +14,7 @@ export default defineConfig({
     nav: [
       {
         title: 'API',
-        link: '/components/diform',
+        link: '/components/diff-form',
       },
     ],
     socialLinks: {

@@ -1,6 +1,6 @@
 {
   "name": "bello",
-  "version": "0.0.15",
+  "version": "1.0.0",
   "description": "A react ui library",
   "authors": [
     "chenjiyuan.super@gamil.com"
@@ -16,6 +16,7 @@
     "react-component",
     "form",
     "diff",
+    "diffForm",
     "表单diff",
     "表单差异"
   ],
