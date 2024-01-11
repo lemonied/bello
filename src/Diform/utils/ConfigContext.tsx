@@ -1,4 +1,4 @@
-import React, { ComponentClass, FC, ReactNode, createContext } from 'react';
+import React, { ComponentClass, FC, ReactNode, createContext, useContext, useMemo } from 'react';
 
 export interface DiformComponentProps {
   source?: ReactNode;
@@ -22,9 +22,15 @@ export const DiformConfigProvider: FC<DiformConfig & { children?: ReactNode }> =
 
   const { children, ...extra } = props;
 
+  const currentContext = useContext(DiformConfigContext);
+
+  const nextContext = useMemo(() => {
+    return Object.assign({}, currentContext, extra);
+  }, [extra, currentContext]);
+
   return (
     <DiformConfigContext.Provider
-      value={extra}
+      value={nextContext}
     >{children}</DiformConfigContext.Provider>
   );
 };
