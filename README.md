@@ -17,5 +17,5 @@ npm install bello
 
 [文档](https://lemonied.github.io/bello)
 
-### Diform
-表单差异对比组件 - [文档](https://lemonied.github.io/bello/components/diform)
+### DiffForm
+表单差异对比组件 - [文档](https://lemonied.github.io/bello/components/diff-form)
