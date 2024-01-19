@@ -6,12 +6,14 @@ const config: Config = {
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/examples/**/*',
     '!src/**/__tests__/**/*',
-    '!src/mocks/**/*',
   ],
   verbose: true,
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  setupFiles: [
+    './jest.setup.ts',
+  ],
 };
 
 export default config;

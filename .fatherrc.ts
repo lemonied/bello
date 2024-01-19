@@ -7,7 +7,6 @@ export default defineConfig({
     ignores: [
       'src/**/examples/**/*',
       'src/**/__tests__/**/*',
-      'src/mocks/**/*',
     ],
   },
 });

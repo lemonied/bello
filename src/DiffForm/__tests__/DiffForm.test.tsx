@@ -3,7 +3,6 @@ import { cleanup, findAllByText, render, getByText, getAllByText } from '@testin
 import { DiffForm, DiffFormConfigProvider, DiffFormTypes, PassProps, StatusCode } from '../../';
 import { Input, Select } from 'antd';
 import '@testing-library/jest-dom';
-import '../../mocks/matchMedia.mock';
 
 afterEach(cleanup);
 

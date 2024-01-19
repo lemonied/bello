@@ -1,6 +1,5 @@
 import { renderHook, cleanup, act, waitFor } from '@testing-library/react';
 import { useDebounceFn, useDeepCompareMemo, useMemoizedFn, useNames, useNonNullConcat, usePrevious } from '../hooks';
-import '../../mocks/matchMedia.mock';
 
 afterEach(cleanup);
 
