@@ -6,32 +6,28 @@ import { useAnotherType } from './useAnotherType';
 import { useNonNullConcat } from './useNonNullConcat';
 import { Store } from '../utils';
 import type { DiffFormTypes, NamePath, NamePaths } from '../utils';
-import { isEmpty } from 'lodash';
-import { useMemoizedFn } from './useMemoizedFn';
+import { isEmpty, isUndefined, values } from 'lodash';
 
 export const useStoreValue = (type?: DiffFormTypes, names?: NamePaths) => {
   const { store } = useDiffFormContext();
   const [state, setState] = useState(() => store?.getSnapshot({ type, names }));
   const stateRef = useRef(state);
 
-  const assignState = useMemoizedFn(() => {
-    setState(stateRef.current);
-  });
   const debounced = useDebounceFn(() => {
-    assignState();
+    setState(stateRef.current);
   }, 300);
 
   useEffect(() => {
     if (names && type && store) {
       stateRef.current = store.getSnapshot({ type, names });
-      assignState();
+      debounced();
+      debounced.flush();
       const cancel = store.on((storeValue) => {
         const currentState = stateRef.current;
         stateRef.current = storeValue.remove ? undefined : storeValue;
-        if (!currentState) {
-          assignState();
-        } else {
-          debounced();
+        debounced();
+        if (currentState !== stateRef.current && (isUndefined(currentState) || isUndefined(stateRef.current))) {
+          debounced.flush();
         }
       }, { names, type });
       return () => {
@@ -39,7 +35,7 @@ export const useStoreValue = (type?: DiffFormTypes, names?: NamePaths) => {
         debounced.cancel();
       };
     }
-  }, [type, names, store, debounced, assignState]);
+  }, [type, names, store, debounced]);
 
   return state;
 };
@@ -70,26 +66,23 @@ export const useAnotherUniqueFields = () => {
   const [state, setState] = useState(() => store?.getUniqueFieldsSnapshots({ names: anotherFullNamePath, type, uniqueKey }));
   const stateRef = useRef(state);
 
-  const assignState = useMemoizedFn(() => {
-    setState(stateRef.current);
-  });
   const debounced = useDebounceFn(() => {
-    assignState();
+    setState(stateRef.current);
   }, 300);
 
   useEffect(() => {
     if (anotherFullNamePath && type && store && uniqueKey) {
       stateRef.current = store.getUniqueFieldsSnapshots({ names: anotherFullNamePath, type, uniqueKey });
-      assignState();
+      debounced();
+      debounced.flush();
       const cancel = store.on((storeValue) => {
         const currentState = stateRef.current;
         stateRef.current = currentState ?
           Store.updateState({ ...currentState }, storeValue) :
           store?.getUniqueFieldsSnapshots({ names: anotherFullNamePath, type, uniqueKey });
-        if (!currentState) {
-          assignState();
-        } else {
-          debounced();
+        debounced();
+        if (values(currentState).length !== values(stateRef.current).length) {
+          debounced.flush();
         }
       }, { names: anotherFullNamePath, type, uniqueKey });
       return () => {
@@ -97,7 +90,7 @@ export const useAnotherUniqueFields = () => {
         debounced.cancel();
       };
     }
-  }, [anotherFullNamePath, assignState, debounced, store, type, uniqueKey]);
+  }, [anotherFullNamePath, debounced, store, type, uniqueKey]);
 
   return state;
 };
@@ -110,26 +103,23 @@ export const useAnotherExistenceValue = (fieldName?: number) => {
   const stateRef = useRef(useMemo(() => store?.getChildSnapshots({ names: names, type }), []));
   const [state, setState] = useState(!isEmpty(stateRef.current));
 
-  const assignState = useMemoizedFn(() => {
-    setState(!isEmpty(stateRef.current));
-  });
   const debounced = useDebounceFn(() => {
-    assignState();
+    setState(!!stateRef.current);
   }, 300);
 
   useEffect(() => {
     if (names && type && store) {
       stateRef.current = store.getChildSnapshots({ type, names });
-      assignState();
+      debounced();
+      debounced.flush();
       const cancel = store.on((storeValue) => {
         const currentState = stateRef.current;
         stateRef.current = currentState ?
           Store.updateState({ ...currentState }, storeValue) :
           store?.getChildSnapshots({ names, type });
-        if (!currentState) {
-          assignState();
-        } else {
-          debounced();
+        debounced();
+        if (values(currentState).length !== values(stateRef.current).length) {
+          debounced.flush();
         }
       }, { names, type, fuzzy: true });
       return () => {
@@ -137,7 +127,7 @@ export const useAnotherExistenceValue = (fieldName?: number) => {
         debounced.cancel();
       };
     }
-  }, [type, names, store, debounced, assignState]);
+  }, [type, names, store, debounced]);
 
   return state;
 

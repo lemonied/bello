@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { DiffForm, DiffFormProps, DiffFormTypes } from 'bello';
 import { Button, Card, Col, Input, InputNumber, Row, Space, Switch, Typography } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
@@ -194,6 +194,7 @@ const Students = () => {
 
 export default () => {
 
+  const [form] = DiffForm.useForm();
   const [enable, setEnable] = useState(true);
   const diff = useMemo<DiffFormProps['diff']>(() => {
     if (enable) {
@@ -218,6 +219,10 @@ export default () => {
     }
   }, [enable]);
 
+  useEffect(() => {
+    form.resetFields();
+  }, [form]);
+
   return (
     <Row gutter={[0, 16]}>
       <Space>
@@ -227,6 +232,7 @@ export default () => {
       <DiffForm
         diff={diff}
         layout='vertical'
+        form={form}
         initialValues={{
           clazz: '三年2班',
           students: [

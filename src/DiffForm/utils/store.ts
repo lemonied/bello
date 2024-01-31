@@ -1,4 +1,4 @@
-import { escapeRegExp, pickBy } from 'lodash';
+import { escapeRegExp, isEmpty, pickBy } from 'lodash';
 import type { DiffFormTypes, NamePaths } from './model';
 
 export interface StoreValue {
@@ -66,13 +66,14 @@ export class Store {
   getUniqueFieldsSnapshots(options: Partial<Pick<StoreValue, 'names' | 'type'> & { uniqueKey: NamePaths }>) {
     const { names, type, uniqueKey } = options;
     if (names && type && uniqueKey) {
-      return pickBy(this.state, (_, key) => {
+      const ret = pickBy(this.state, (_, key) => {
         return new RegExp(`^${Store.join([
           Store.join([type, ...names]),
           '\\d',
           Store.join(uniqueKey),
         ])}$`).test(key);
       });
+      return isEmpty(ret) ? undefined : ret;
     }
   }
 
@@ -80,7 +81,8 @@ export class Store {
     const { names, type } = options;
     if (names && type) {
       const label = Store.join([type, ...names]);
-      return pickBy(this.state, (_, key) => key.startsWith(label));
+      const ret = pickBy(this.state, (_, key) => key.startsWith(label));
+      return isEmpty(ret) ? undefined : ret;
     }
   }
 
