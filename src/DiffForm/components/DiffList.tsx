@@ -4,7 +4,7 @@ import { Form } from 'antd';
 import type { FormListProps } from 'antd/es/form/FormList';
 import { DiffFormInfoProvider, DiffFormProvider, type NamePath } from '../utils';
 import type { DiffFormContextValue, DiffFormInfo } from '../utils';
-import { useDiffFormContext, useDiffFormInfo, useNames, useNextAnotherNames, useNonNullConcat } from '../hooks';
+import { useDiffFormContext, useDiffFormInfo, useNames, useNextAnotherNames, useNextNames, useNonNullConcat } from '../hooks';
 
 export interface DiffListProps extends FormListProps {
   uniqueKey?: NamePath;
@@ -34,16 +34,17 @@ const DiffListContent: FC<DiffListProps> = (props) => {
     </DiffFormProvider>
   );
 };
+
 const DiffList: FC<DiffListProps> = (props) => {
   const { uniqueKey, ...extra } = props;
   const context = useDiffFormContext();
-  const { namePaths } = useDiffFormInfo();
-  const nextNamePaths = useNonNullConcat(namePaths, props.name);
+  const namePaths = useNextNames(extra.name);
   const nextDiffFormInfoContext = useMemo<DiffFormInfo>(() => {
     return {
-      namePaths: nextNamePaths,
+      namePaths,
+      fieldName: undefined, // 重置fieldName
     };
-  }, [nextNamePaths]);
+  }, [namePaths]);
   if (typeof context.type !== 'undefined') {
     return (
       <DiffFormInfoProvider value={nextDiffFormInfoContext}>

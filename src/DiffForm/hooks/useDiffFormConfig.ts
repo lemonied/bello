@@ -1,6 +1,7 @@
 import { ConfigProvider } from 'antd';
 import { useCallback, useContext } from 'react';
-import { StatusInfo, DiffFormConfigContext, DIFF_FORM_I18N, StatusCode, DIFF_STATUS_COLOR } from '../utils';
+import type { StatusInfo, StatusCode } from '../utils';
+import { DiffFormConfigContext, DIFF_FORM_I18N, DIFF_STATUS_COLOR } from '../utils';
 
 export const useDiffFormConfig = () => {
   return useContext(DiffFormConfigContext);
