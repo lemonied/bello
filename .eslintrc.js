@@ -28,5 +28,6 @@ module.exports = {
     'comma-spacing': ['error', { 'before': false, 'after': true }],
     'no-debugger': 'warn',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/consistent-type-imports': 'error',
   },
 };

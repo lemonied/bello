@@ -1,7 +1,5 @@
-import { ReactNode } from 'react';
-
 interface PassPropsProps<P=any> {
-  children: (props: P) => ReactNode;
+  children: (props: P) => JSX.Element;
   [props: string]: any;
 }
 export const PassProps = <P extends object = Record<string, any>>(props: PassPropsProps<P>) => {

@@ -1,5 +1,6 @@
-import React, { FC, ReactNode, createContext, useContext, useMemo } from 'react';
-import { NamePaths, DiffFormTypes } from './model';
+import React, { createContext, useContext, useMemo } from 'react';
+import type { FC, ReactNode } from 'react';
+import type { NamePaths, DiffFormTypes } from './model';
 
 export interface DiffFormInfo {
   /**

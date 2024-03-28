@@ -68,9 +68,9 @@ export class Store {
     if (names && type && uniqueKey) {
       const ret = pickBy(this.state, (_, key) => {
         return new RegExp(`^${Store.join([
-          Store.join([type, ...names]),
-          '\\d',
-          Store.join(uniqueKey),
+          escapeRegExp(Store.join([type, ...names])),
+          '\\d+',
+          escapeRegExp(Store.join(uniqueKey)),
         ])}$`).test(key);
       });
       return isEmpty(ret) ? undefined : ret;
@@ -94,7 +94,7 @@ export class Store {
         (subscriber.fuzzy && label.startsWith(subscriber.key)) ||
         (subscriber.uniqueKey && new RegExp(`^${Store.join([
           escapeRegExp(subscriber.key),
-          '\\d',
+          '\\d+',
           escapeRegExp(Store.join(subscriber.uniqueKey)),
         ])}$`).test(label)) ||
         label === subscriber.key

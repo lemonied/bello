@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { DiffForm, DiffFormProps, DiffFormTypes } from 'bello';
+import { DiffForm, DiffFormTypes } from 'bello';
+import type { DiffFormProps } from 'bello';
 import { Button, Card, Col, Input, InputNumber, Row, Space, Switch, Typography } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 

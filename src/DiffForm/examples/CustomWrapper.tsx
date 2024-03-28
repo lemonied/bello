@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import type { ReactNode } from 'react';
 import { DiffFormConfigProvider, DiffForm } from 'bello';
 import { Input, Select } from 'antd';
 
