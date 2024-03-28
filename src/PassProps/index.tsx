@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface PassPropsProps<P=any> {
   children: (props: P) => ReactNode;

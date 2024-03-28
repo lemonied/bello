@@ -1,20 +1,17 @@
 import { useMemo } from 'react';
 import { useDiffFormContext } from './useDiffFormContext';
 import type { NamePaths, NamePath } from '../utils';
-import { useNames, usePrefixName, useRelativeNames } from './useNames';
+import { useNames } from './useNames';
 import { useNonNullConcat } from './useNonNullConcat';
 
-/**
- * @description prefixName + name 
- */
 export const useNextNames = (name?: NamePath) => {
   const names = useNames(name);
-  const prefixName = usePrefixName();
-  return useNonNullConcat(prefixName, names);
+  const { fullNamePath } = useDiffFormContext();
+  return useNonNullConcat(fullNamePath, names);
 };
 
 export const useNextAnotherNames = (name?: NamePath) => {
-  const names = useRelativeNames(name);
+  const names = useNames(name);
   const { anotherFieldName, uniqueKey } = useDiffFormContext();
   return useMemo(() => {
     if (uniqueKey && typeof anotherFieldName === 'number' && typeof names?.[0] === 'number') {

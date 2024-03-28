@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import type { StatusInfo } from '../utils';
+import { ReactNode } from 'react';
+import { StatusInfo } from '../utils';
 import { useDiffStatus } from '../hooks';
 
 export interface DiffStatusProps {

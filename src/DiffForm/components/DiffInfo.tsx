@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import type { DiffFormInfo } from '../utils';
+import { ReactNode } from 'react';
+import { DiffFormInfo } from '../utils';
 import { useDiffFormInfo } from '../hooks';
 
 export interface DiffInfoProps {

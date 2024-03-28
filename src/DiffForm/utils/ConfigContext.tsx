@@ -1,5 +1,4 @@
-import type { ComponentClass, FC, ReactNode } from 'react';
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { ComponentClass, FC, ReactNode, createContext, useContext, useMemo } from 'react';
 
 export interface DiffFormComponentProps {
   source?: ReactNode;

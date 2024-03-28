@@ -3,7 +3,7 @@ import type { CSSProperties, FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import { useDiffStatus } from '../hooks';
-import type { StatusInfo } from '../utils';
+import { StatusInfo } from '../utils';
 
 const Wrapper = styled.div<{ $status?: StatusInfo | null }>`
   &.diff-form-mark{

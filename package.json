@@ -1,6 +1,6 @@
 {
   "name": "bello",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "A react ui library",
   "authors": [
     "chenjiyuan.super@gamil.com"
@@ -53,7 +53,6 @@
   },
   "peerDependencies": {
     "antd": "^4.22.0 || ^5.0.0",
-    "rc-field-form": "^1.22.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
@@ -86,7 +85,6 @@
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
-    "rc-field-form": "^1.22.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "stylelint": "^14.9.1",

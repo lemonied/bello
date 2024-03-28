@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DiffFormComponentProps } from '../utils';
+import { DiffFormComponentProps } from '../utils';
 import { Col, Row } from 'antd';
 
 export const DiffComponent = (props: DiffFormComponentProps) => {

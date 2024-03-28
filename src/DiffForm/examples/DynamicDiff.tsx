@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import type { DiffFormProps } from 'bello';
-import { DiffForm, DiffFormTypes } from 'bello';
+import { DiffForm, DiffFormProps, DiffFormTypes } from 'bello';
 import { Button, Card, Col, Input, InputNumber, Row, Space, Switch, Typography } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -13,10 +12,8 @@ const Parents = () => {
       title={'家长'}
       size={'small'}
       bordered={false}
-      styles={{
-        header: { background: '#f3f3f3' },
-        body: { background: '#f3f3f3' },
-      }}
+      bodyStyle={{ background: '#f3f3f3' }}
+      headStyle={{ background: '#f3f3f3' }}
     >
       <DiffForm.List
         name={[fieldName!, 'parents']}
@@ -265,9 +262,7 @@ export default () => {
               return (
                 <Card
                   title={diformInfo.type === DiffFormTypes.SOURCE ? '变更前' : '变更后'}
-                  styles={{
-                    body: { padding: 8 },
-                  }}
+                  bodyStyle={{ padding: 8 }}
                 >
                   <DiffForm.Item
                     name={'clazz'}

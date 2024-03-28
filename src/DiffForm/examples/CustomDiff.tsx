@@ -1,5 +1,4 @@
-import type { ReactElement } from 'react';
-import React, { cloneElement } from 'react';
+import React, { ReactElement, cloneElement } from 'react';
 import { DatePicker, Input } from 'antd';
 import { DiffForm, PassProps } from 'bello';
 

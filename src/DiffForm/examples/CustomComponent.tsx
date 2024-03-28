@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Collapse, Input, InputNumber, Row } from 'antd';
-import type { DiffFormComponentProps } from 'bello';
-import { DiffFormConfigProvider, DiffForm } from 'bello';
+import { DiffFormConfigProvider, DiffFormComponentProps, DiffForm } from 'bello';
 
 const Custom = (props: DiffFormComponentProps) => {
 

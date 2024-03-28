@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDiffFormContext } from './useDiffFormContext';
-import { useNextAnotherNames } from './useNextNames';
+import { useNextAnotherNames, useNextNames } from './useNextNames';
 import { useDebounceFn } from './useDebounceFn';
 import { useAnotherType } from './useAnotherType';
 import { useNonNullConcat } from './useNonNullConcat';
@@ -38,6 +38,12 @@ export const useStoreValue = (type?: DiffFormTypes, names?: NamePaths) => {
   }, [type, names, store, debounced]);
 
   return state;
+};
+
+export const useCurrentStoreValue = (name?: NamePath) => {
+  const { type } = useDiffFormContext();
+  const fullNames = useNextNames(name);
+  return useStoreValue(type, fullNames);
 };
 
 export const useAnotherStoreValue = (name?: NamePath) => {
