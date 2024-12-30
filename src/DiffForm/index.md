@@ -113,6 +113,7 @@ title: DiffForm-表单差异对比
 | DiffForm.useFormInstance   | 继承 `Form.useFormInstance`                              | [Form.useFormInstance](https://ant-design.antgroup.com/components/form-cn#formuseforminstance) |
 | DiffForm.useWatch          | 继承 `Form.useWatch`                                     | [Form.useWatch](https://ant-design.antgroup.com/components/form-cn#formusewatch)               |
 | DiffForm.Item.useStatus    | 继承 `Form.Item.useStatus`                               | [Form.Item.useStatus](https://ant-design.antgroup.com/components/form-cn#formitemusestatus)    |
+| DiffForm.Item.useDiffValue      | DiffForm.Item的子组件中获取当前控件信息                  | `DiffItemContextType \| null`                                                                  |
 
 ## 类型
 
@@ -190,6 +191,16 @@ export enum StatusCode {
 export interface DiffFormComponentProps {
   source?: ReactNode;
   target?: ReactNode;
+}
+```
+
+### DiffItemContextType
+```ts
+interface DiffItemContextType {
+  name: NamePaths;
+  fullName: NamePaths;
+  value: any;
+  anotherValue: any;
 }
 ```
 

@@ -3,9 +3,18 @@ import type { FC, ReactElement } from 'react';
 import { Form, type FormItemProps } from 'antd';
 import { useAnotherStoreValue, useDiffFormCombineConfig, useDiffFormConfig, useDiffFormContext, useNames, useNextNames } from '../hooks';
 import { DiffFormProvider, DiffFormTypes, StatusCode, _isEmpty } from '../utils';
-import type  { DiffFormContextValue, NamePath } from '../utils';
+import type  { DiffFormContextValue, NamePath, NamePaths } from '../utils';
 import { DiffFormMark } from './DiffFormMark';
 import { isEqual } from 'lodash';
+
+interface DiffItemContextType {
+  name: NamePaths;
+  fullName: NamePaths;
+  value: any;
+  anotherValue: any;
+}
+const DiffItemContext = React.createContext<DiffItemContextType | null>(null);
+const useDiffValue = () => React.useContext(DiffItemContext);
 
 interface DiffItemPropsType {
   noStatus?: boolean;
@@ -25,6 +34,7 @@ const DiffItemContent: FC<DiffItemContentProps> = (props) => {
   const anotherValue = useAnotherStoreValue(name);
   const combineConfig = useDiffFormCombineConfig();
 
+  const namePaths = useNames(name);
   const names = useNextNames(name);
 
   const storeRef = useRef(store);
@@ -81,11 +91,20 @@ const DiffItemContent: FC<DiffItemContentProps> = (props) => {
 
   return (
     <DiffFormProvider value={nextContext}>
-      {
-        noStatus ?
-          cloneElement(children, extra) :
-          <Wrapper>{cloneElement(children, extra)}</Wrapper>
-      }
+      <DiffItemContext.Provider
+        value={{
+          name: namePaths!,
+          fullName: names!,
+          value: extra.value,
+          anotherValue: statusInfo ? undefined : anotherValue?.value,
+        }}
+      >
+        {
+          noStatus ?
+            cloneElement(children, extra) :
+            <Wrapper>{cloneElement(children, extra)}</Wrapper>
+        }
+      </DiffItemContext.Provider>
     </DiffFormProvider>
   );
 
@@ -95,6 +114,7 @@ export type DiffItemProps = FormItemProps & DiffItemPropsType;
 export interface DiffItemType {
   (props: DiffItemProps): React.JSX.Element;
   useStatus: typeof Form.Item.useStatus;
+  useDiffValue: typeof useDiffValue;
 }
 const DiffItem: DiffItemType = (props) => {
 
@@ -120,5 +140,6 @@ const DiffItem: DiffItemType = (props) => {
 };
 
 DiffItem.useStatus = Form.Item.useStatus;
+DiffItem.useDiffValue = useDiffValue;
 
 export { DiffItem };
