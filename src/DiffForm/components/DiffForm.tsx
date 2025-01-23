@@ -104,22 +104,24 @@ const DiffForm: DiffFormType = (props) => {
   if (sourceProps) {
     return (
       <DiffFormProvider value={sharedContext}>
-        <DiffFormComponent
-          source={
-            <DiffFormInfoProvider value={sourceInfoContext}>
-              <DiffFormProvider value={sourceContext}>
-                <Form {...sourceProps}>{targetProps.children}</Form>
-              </DiffFormProvider>
-            </DiffFormInfoProvider>
-          }
-          target={
-            <DiffFormInfoProvider value={targetInfoContext}>
-              <DiffFormProvider value={targetContext}>
-                <Form {...targetProps} />
-              </DiffFormProvider>
-            </DiffFormInfoProvider>
-          }
-        />
+        <DiffFormInfoProvider value={{ diffEnable: true }}>
+          <DiffFormComponent
+            source={
+              <DiffFormInfoProvider value={sourceInfoContext}>
+                <DiffFormProvider value={sourceContext}>
+                  <Form {...sourceProps}>{targetProps.children}</Form>
+                </DiffFormProvider>
+              </DiffFormInfoProvider>
+            }
+            target={
+              <DiffFormInfoProvider value={targetInfoContext}>
+                <DiffFormProvider value={targetContext}>
+                  <Form {...targetProps} />
+                </DiffFormProvider>
+              </DiffFormInfoProvider>
+            }
+          />
+        </DiffFormInfoProvider>
       </DiffFormProvider>
     );
   }

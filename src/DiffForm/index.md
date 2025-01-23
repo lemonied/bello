@@ -137,6 +137,10 @@ type NamePath = string | number | (string | number)[];
 ```ts
 interface DiffFormInfo {
   /**
+  * @description 是否开启diff
+  */
+  diffEnable?: boolean;
+  /**
    * @description 当前Form类型（source/target）
    */
   type?: DiffFormTypes;
